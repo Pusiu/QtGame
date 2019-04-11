@@ -16,6 +16,8 @@ class GameWindow : public QOpenGLWidget, public QOpenGLFunctions
 {
     Q_OBJECT
 public:
+    static GameWindow* instance;
+
     GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 
@@ -25,6 +27,7 @@ public:
     friend Model;
 
     Player player;
+    int m_timer;
 
 public slots:
     void setXRotation(float angle);
@@ -78,7 +81,6 @@ private:
         float m_camZRot = 0;
         float m_camDistance = 3.5f;
 
-        int m_timer;
 };
 
 #endif // GAMEWINDOW_H

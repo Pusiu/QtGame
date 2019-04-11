@@ -1,6 +1,4 @@
 #define _USE_MATH_DEFINES
-
-
 #include "gamewindow.h"
 #include <QMouseEvent>
 #include <QOpenGLShaderProgram>
@@ -10,6 +8,8 @@
 #include <qstack.h>
 using namespace std;
 
+GameWindow* GameWindow::instance;
+
 GameWindow::GameWindow(QWidget *parent) : QOpenGLWidget(parent), m_program(nullptr)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -17,6 +17,7 @@ GameWindow::GameWindow(QWidget *parent) : QOpenGLWidget(parent), m_program(nullp
     QCursor c = cursor();
     c.setShape(Qt::CursorShape::BlankCursor);
     setCursor(c);
+    instance=this;
 }
 
 GameWindow::~GameWindow()

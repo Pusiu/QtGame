@@ -12,7 +12,13 @@ SOURCES += \
     mesh.cpp \
     model.cpp \
     player.cpp \
-    window.cpp
+    window.cpp \
+    joint.cpp \
+    animatedmodel.cpp \
+    animation.cpp \
+    animator.cpp \
+    keyframe.cpp \
+    jointtransform.cpp
 
 HEADERS += \
     gamewindow.h \
@@ -110,7 +116,13 @@ HEADERS += \
     mesh.h \
     model.h \
     player.h \
-    window.h
+    window.h \
+    joint.h \
+    animatedmodel.h \
+    animation.h \
+    animator.h \
+    keyframe.h \
+    jointtransform.h
 
 QT           += widgets gui
 QMAKE_LFLAGS
