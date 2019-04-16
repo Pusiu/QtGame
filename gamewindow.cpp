@@ -1,4 +1,5 @@
 #define _USE_MATH_DEFINES
+
 #include "gamewindow.h"
 #include <QMouseEvent>
 #include <QOpenGLShaderProgram>
@@ -6,6 +7,8 @@
 #include <math.h>
 #include <iostream>
 #include <qstack.h>
+#include "cube.h"
+
 using namespace std;
 
 GameWindow* GameWindow::instance;
@@ -14,16 +17,17 @@ GameWindow::GameWindow(QWidget *parent) : QOpenGLWidget(parent), m_program(nullp
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
-    QCursor c = cursor();
+
+    /*QCursor c = cursor();
     c.setShape(Qt::CursorShape::BlankCursor);
-    setCursor(c);
+    setCursor(c);*/
     instance=this;
 }
 
 GameWindow::~GameWindow()
 {
-    for(auto it = m_models.begin() ; it != m_models.end(); it++)
-        delete it.value();
+    for(auto it = gameObjects.begin() ; it != gameObjects.end(); it++)
+        delete (*it);
 
     cleanup();
 }
@@ -82,6 +86,7 @@ void GameWindow::setZRotation(float angle)
     }
 }
 
+
 void GameWindow::initializeGL()
 {
     initializeOpenGLFunctions();
@@ -109,19 +114,39 @@ void GameWindow::initializeGL()
     m_lightLoc.diffuse = m_program->uniformLocation("light.diffuse");
 
 
-    m_models.insert("Cube", new Model());
+   /* m_models.insert("Cube", new Model());
     m_models["Cube"]->meshes.push_back(new Mesh());
     m_models["Cube"]->meshes[0]->generateCube(1,1,1);
     m_models.insert("Test", new Model());
     m_models["Test"]->meshes.push_back(new Mesh());
-    m_models["Test"]->meshes[0]->generateMeshFromObjFile("resources/meshes/bunny.obj");
-     m_models.insert("Paratrooper", new Model("resources/meshes/paratrooper.fbx"));
+    m_models["Test"]->meshes[0]->generateMeshFromObjFile("resources/meshes/bunny.obj");*/
+
+
+    for (int i=0; i < 36; i++)
+    {
+        Cube* c = new Cube(new Model());
+        c->model->meshes.push_front(new Mesh());
+        c->model->meshes[0]->generateCube(1,1,1);
+
+        c->position = QVector3D(sin(i)*5,0,cos(i)*5);
+        gameObjects.push_front(c);
+    }
+
+
+    player = new Player("resources/meshes/paratrooper.fbx");
+    player->scale = QVector3D(0.05,0.05,0.05);
+    gameObjects.push_front(player);
+
+
+    //gameObjects.insert("Paratrooper", new Model("resources/meshes/paratrooper.fbx"));
     //m_models["Paratrooper"]->LoadModel("resources/meshes/test.fbx");
 
 
     // Release (unbind) all
     m_program->release();
 }
+
+
 
 void GameWindow::paintGL()
 {
@@ -143,34 +168,47 @@ void GameWindow::paintGL()
     m_world.setToIdentity();
 
     QVector3D cameraOffset(QVector3D(0,2,0));
-    m_camera.lookAt(player.position - m_camDistance * player.direction + cameraOffset,
-                    player.position + cameraOffset,
+    m_camera.lookAt(player->position - m_camDistance * player->direction + cameraOffset,
+                    player->position + cameraOffset,
                     QVector3D(0, 1, 0)
                     );
 
+    //m_camera.lookAt(QVector3D(0,0,0), QVector3D(-5,0,0), QVector3D(0,1,0));
+
+
+    float phi = atan2(player->direction.z(), player->direction.x());
+    player->rotation = player->rotation.fromEulerAngles(-90,-phi * 180.0f / M_PI,0);
+
+    for (int i=0; i < gameObjects.size(); i++)
+    {
+        worldMatrixStack.push(m_world);
+
+        m_world.translate(gameObjects[i]->position);
+        m_world.scale(gameObjects[i]->scale);
+        m_world.rotate(gameObjects[i]->rotation.normalized());
+        setTransforms();
+        m_program->setUniformValue(m_modelColorLoc,QVector3D(1.0f, 1.0, 1.0));
+        gameObjects[i]->Render();
+
+        m_world = worldMatrixStack.pop();
+    }
+
 
     // Paratrooper
-    worldMatrixStack.push(m_world);
-        m_world.translate(player.position);
+    /*worldMatrixStack.push(m_world);
+        m_world.translate(player->position);
         m_world.scale(QVector3D(0.05f, 0.05f, 0.05f));
-        float phi = atan2(player.direction.z(), player.direction.x());
+        float phi = atan2(player->direction.z(), player->direction.x());
         //m_world.rotate(-phi * 180.0f / M_PI + 90, 0, 1, 0);
         m_world.rotate(-phi * 180.0f / M_PI , 0, 1, 0);
         m_world.rotate(-90, 1, 0, 0); //blender correction
         setTransforms();
         m_program->setUniformValue(m_modelColorLoc,QVector3D(1.0f, 1.0, 1.0));
-        m_models["Paratrooper"]->Draw(this);
-    m_world = worldMatrixStack.pop();
+        //m_models["Paratrooper"]->Draw();
+    m_world = worldMatrixStack.pop();*/
 
-    worldMatrixStack.push(m_world);
-        m_world.translate(0.7f, 0.0f, -2.0f);
-        m_world.scale(QVector3D(0.1f, 0.1f, 0.1f));
-        setTransforms();
-        m_program->setUniformValue(m_modelColorLoc,QVector3D(1.0f, 1.0, 1.0));
-       m_models["Test"]->Draw(this);
-    m_world = worldMatrixStack.pop();
 
-    for (int i=0; i < 10; i++)
+    /*for (int i=0; i < 10; i++)
     {
         worldMatrixStack.push(m_world);
             m_world.translate(-5+i, 0.0f, -5.0f);
@@ -179,7 +217,7 @@ void GameWindow::paintGL()
             m_program->setUniformValue(m_modelColorLoc,QVector3D(1.0f, 1.0, 1.0));
             m_models["Cube"]->Draw(this);
         m_world = worldMatrixStack.pop();
-    }
+    }*/
 
     m_program->release();
 
@@ -190,23 +228,23 @@ void GameWindow::paintGL()
 
     if (m_keyState[Qt::Key_W])
     {
-        player.position.setX(player.position.x() + player.direction.x() * player.speed);
-        player.position.setZ(player.position.z() + player.direction.z() * player.speed);
+        player->position.setX(player->position.x() + player->direction.x() * player->speed);
+        player->position.setZ(player->position.z() + player->direction.z() * player->speed);
     }
     if (m_keyState[Qt::Key_S])
     {
-        player.position.setX(player.position.x() - player.direction.x() * player.speed);
-        player.position.setZ(player.position.z() - player.direction.z() * player.speed);
+        player->position.setX(player->position.x() - player->direction.x() * player->speed);
+        player->position.setZ(player->position.z() - player->direction.z() * player->speed);
     }
     if (m_keyState[Qt::Key_A])
     {
-        player.position.setX(player.position.x() + player.direction.z() * player.speed);
-        player.position.setZ(player.position.z() - player.direction.x() * player.speed);
+        player->position.setX(player->position.x() + player->direction.z() * player->speed);
+        player->position.setZ(player->position.z() - player->direction.x() * player->speed);
     }
     if (m_keyState[Qt::Key_D])
     {
-        player.position.setX(player.position.x() - player.direction.z() * player.speed);
-        player.position.setZ(player.position.z() + player.direction.x() * player.speed);
+        player->position.setX(player->position.x() - player->direction.z() * player->speed);
+        player->position.setZ(player->position.z() + player->direction.x() * player->speed);
     }
 
     update();
@@ -248,8 +286,8 @@ void GameWindow::mouseMoveEvent(QMouseEvent *event)
     }
 
     float r = 1;
-    float phi = atan2(player.direction.z(), player.direction.x());
-    float theta = acos(player.direction.y() / r);
+    float phi = atan2(player->direction.z(), player->direction.x());
+    float theta = acos(player->direction.y() / r);
 
     phi = phi + dx * 0.01;
     theta = theta + dy * 0.01;
@@ -257,9 +295,9 @@ void GameWindow::mouseMoveEvent(QMouseEvent *event)
     if(theta < 0.01) theta = 0.01;
     if(theta > 3.14) theta = 3.14;
 
-    player.direction.setX(r*sin(theta)*cos(phi));
-    player.direction.setY(r*cos(theta));
-    player.direction.setZ(r*sin(theta)*sin(phi));
+    player->direction.setX(r*sin(theta)*cos(phi));
+    player->direction.setY(r*cos(theta));
+    player->direction.setZ(r*sin(theta)*sin(phi));
 
     m_lastPos = event->pos();
 }

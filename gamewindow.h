@@ -6,9 +6,8 @@
 #include <QMatrix4x4>
 #include <QKeyEvent>
 #include <QMap>
+#include "gameobject.h"
 #include "player.h"
-#include "mesh.h"
-#include "model.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -23,10 +22,9 @@ public:
 
     QSize sizeHint() const override;
 
-    friend Mesh;
-    friend Model;
 
-    Player player;
+    QVector<GameObject*> gameObjects;
+    Player* player;
     int m_timer;
 
 public slots:
@@ -72,7 +70,7 @@ private:
         QMatrix4x4 m_camera;
         QMatrix4x4 m_world;
 
-        QMap<QString, Model*> m_models;
+       // QMap<QString, Model*> m_models;
 
         bool m_keyState[256];
 

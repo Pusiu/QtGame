@@ -1,11 +1,14 @@
 SOURCES += \
-        main.cpp \
-    gamewindow.cpp \
-    window.cpp \
-    mainwindow.cpp \
-    mesh.cpp \
-    model.cpp \
-    player.cpp \
+    gameobject.cpp \
+    AnimationSystem/animatedmodel.cpp \
+    AnimationSystem/animation.cpp \
+    AnimationSystem/animator.cpp \
+    AnimationSystem/joint.cpp \
+    AnimationSystem/jointtransform.cpp \
+    AnimationSystem/keyframe.cpp \
+    debug/moc_gamewindow.cpp \
+    debug/moc_mainwindow.cpp \
+    debug/moc_window.cpp \
     gamewindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -13,20 +16,17 @@ SOURCES += \
     model.cpp \
     player.cpp \
     window.cpp \
-    joint.cpp \
-    animatedmodel.cpp \
-    animation.cpp \
-    animator.cpp \
-    keyframe.cpp \
-    jointtransform.cpp
+    debug.cpp \
+    cube.cpp
 
 HEADERS += \
-    gamewindow.h \
-    mainwindow.h \
-    window.h \
-    mesh.h \
-    model.h \
-    player.h \
+    gameobject.h \
+    AnimationSystem/animatedmodel.h \
+    AnimationSystem/animation.h \
+    AnimationSystem/animator.h \
+    AnimationSystem/joint.h \
+    AnimationSystem/jointtransform.h \
+    AnimationSystem/keyframe.h \
     debug/moc_predefs.h \
     lib/assimp/include/assimp/Compiler/poppack1.h \
     lib/assimp/include/assimp/Compiler/pstdint.h \
@@ -43,7 +43,6 @@ HEADERS += \
     lib/assimp/include/assimp/cfileio.h \
     lib/assimp/include/assimp/cimport.h \
     lib/assimp/include/assimp/color4.h \
-    lib/assimp/include/assimp/color4.inl \
     lib/assimp/include/assimp/config.h \
     lib/assimp/include/assimp/CreateAnimMesh.h \
     lib/assimp/include/assimp/DefaultIOStream.h \
@@ -69,12 +68,9 @@ HEADERS += \
     lib/assimp/include/assimp/LogStream.hpp \
     lib/assimp/include/assimp/Macros.h \
     lib/assimp/include/assimp/material.h \
-    lib/assimp/include/assimp/material.inl \
     lib/assimp/include/assimp/MathFunctions.h \
     lib/assimp/include/assimp/matrix3x3.h \
-    lib/assimp/include/assimp/matrix3x3.inl \
     lib/assimp/include/assimp/matrix4x4.h \
-    lib/assimp/include/assimp/matrix4x4.inl \
     lib/assimp/include/assimp/MemoryIOWrapper.h \
     lib/assimp/include/assimp/mesh.h \
     lib/assimp/include/assimp/metadata.h \
@@ -86,14 +82,12 @@ HEADERS += \
     lib/assimp/include/assimp/ProgressHandler.hpp \
     lib/assimp/include/assimp/qnan.h \
     lib/assimp/include/assimp/quaternion.h \
-    lib/assimp/include/assimp/quaternion.inl \
     lib/assimp/include/assimp/RemoveComments.h \
     lib/assimp/include/assimp/scene.h \
     lib/assimp/include/assimp/SceneCombiner.h \
     lib/assimp/include/assimp/SGSpatialSort.h \
     lib/assimp/include/assimp/SkeletonMeshBuilder.h \
     lib/assimp/include/assimp/SmoothingGroups.h \
-    lib/assimp/include/assimp/SmoothingGroups.inl \
     lib/assimp/include/assimp/SpatialSort.h \
     lib/assimp/include/assimp/StandardShapes.h \
     lib/assimp/include/assimp/StreamReader.h \
@@ -105,9 +99,7 @@ HEADERS += \
     lib/assimp/include/assimp/TinyFormatter.h \
     lib/assimp/include/assimp/types.h \
     lib/assimp/include/assimp/vector2.h \
-    lib/assimp/include/assimp/vector2.inl \
     lib/assimp/include/assimp/vector3.h \
-    lib/assimp/include/assimp/vector3.inl \
     lib/assimp/include/assimp/version.h \
     lib/assimp/include/assimp/Vertex.h \
     lib/assimp/include/assimp/XMLTools.h \
@@ -117,12 +109,8 @@ HEADERS += \
     model.h \
     player.h \
     window.h \
-    joint.h \
-    animatedmodel.h \
-    animation.h \
-    animator.h \
-    keyframe.h \
-    jointtransform.h
+    debug.h \
+    cube.h
 
 QT           += widgets gui
 QMAKE_LFLAGS

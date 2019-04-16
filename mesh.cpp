@@ -18,8 +18,9 @@ Mesh::~Mesh()
     delete m_vao_binder;
 }
 
-Mesh::Mesh(QString name, QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture> textures)
+Mesh::Mesh(aiMesh* assimpMesh, QString name, QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture> textures)
 {
+    this->assimpMesh=new aiMesh(*assimpMesh);
     m_count=0;
     this->name = name;
     this->vertices = vertices;
@@ -65,10 +66,6 @@ void Mesh::initVboAndVao()
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
     f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
 
-    if (isSkinned)
-    {
-
-    }
 }
 
 
@@ -108,6 +105,7 @@ void Mesh::generateCube(GLfloat w, GLfloat h, GLfloat d)
     quad3(-w/2, -h/2, -d/2,  -w/2, +h/2, -d/2,  -w/2, +h/2, +d/2,  -w/2, -h/2, +d/2);
 
     m_primitive = GL_TRIANGLES;
+    name="Generated cube";
 
     initVboAndVao();
 }

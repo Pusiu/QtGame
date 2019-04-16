@@ -1,4 +1,6 @@
 #include "model.h"
+#include "debug.h"
+#include <QQueue>
 
 Model::Model()
 {
@@ -10,16 +12,15 @@ Model::Model(QString path, bool gamma) : gammaCorrection(gamma)
     LoadModel(path);
 }
 
-void Model::Draw(GameWindow* window)
+void Model::Draw()
 {
-    for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i]->render(window);
+    for(int i = 0; i < meshes.size(); i++)
+        meshes[i]->render(GameWindow::instance);
 }
 
 bool Model::LoadModel(QString path)
 {
-    Assimp::Importer import;
-    const aiScene *scene = import.ReadFile(path.toLocal8Bit().data(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
+    scene = import.ReadFile(path.toLocal8Bit().data(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
@@ -29,7 +30,55 @@ bool Model::LoadModel(QString path)
     directory = path.mid(0, path.lastIndexOf('/'));
 
     processNode(scene->mRootNode, scene);
+    assimpRootNode=scene->mRootNode;
+
+    if (scene->HasAnimations())
+    {
+        Debug::Log("Loading skeleton");
+        FindSkeleton();
+    }
     return true;
+}
+
+aiNode* Model::FindSkeleton()
+{
+    int minDistance = 100;
+    aiNode* rootBone = nullptr;
+
+    for (int i=0; i < meshes.size();i++)
+    {
+        aiMesh* m= meshes[i]->assimpMesh;
+        for (int j=0; j < m->mNumBones; j++)
+            allBones.push_back(m->mBones[j]);
+    }
+
+    for (int i=0; i < allBones.size();i++)
+    {
+        int distance=0;
+        aiNode* curNode=assimpRootNode;
+        QQueue<aiNode*> q;
+        q.push_back(curNode);
+        while (!q.empty())
+        {
+            curNode=q.front();
+            q.pop_front();
+            if (allBones[i]->mName == curNode->mName)
+                break;
+
+            distance++;
+            for (int j=0; j < curNode->mNumChildren; j++)
+            {
+                q.push_back(curNode->mChildren[j]);
+            }
+        }
+        if (distance < minDistance)
+        {
+            minDistance=distance;
+            rootBone=curNode;
+        }
+    }
+
+    return rootBone;
 }
 
 void Model::processNode(aiNode *node, const aiScene *scene)
@@ -55,6 +104,7 @@ void Model::processMesh(aiMesh *mesh, const aiScene *scene)
             QVector<Vertex> vertices;
             QVector<unsigned int> indices;
             vector<Texture> textures;
+
 
             // Walk through each of the mesh's vertices
             for(unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -121,7 +171,7 @@ void Model::processMesh(aiMesh *mesh, const aiScene *scene)
              */
             // return a mesh object created from the extracted mesh data
 
-            meshes.push_back(new Mesh(QString(scene->mMeshes[0]->mName.C_Str()), vertices, indices, QVector<Texture>().fromStdVector(textures)));
+            meshes.push_back(new Mesh(mesh, QString(scene->mMeshes[0]->mName.C_Str()), vertices, indices, QVector<Texture>().fromStdVector(textures)));
 }
 
 unsigned int Model::TextureFromFile(const char *path, QString directory, bool gamma=false)

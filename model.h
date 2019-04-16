@@ -1,6 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include "mesh.h"
+#include "gamewindow.h"
 #include <iostream>
 
 using namespace std;
@@ -15,6 +16,13 @@ public:
     QVector<Mesh*> meshes;
     QString directory;
     bool gammaCorrection;
+    aiNode* assimpRootNode = nullptr;
+    QList<aiBone*> allBones;
+    aiNode* rootBone;
+
+    Assimp::Importer import;
+    const aiScene* scene;
+
 
     Model();
     /*  Functions   */
@@ -22,12 +30,14 @@ public:
     Model(QString path, bool gamma = false);
 
     // draws the model, and thus all its meshes
-    void Draw(GameWindow* window);
+    void Draw();
 
+    aiNode* FindSkeleton();
 private:
     /*  Functions   */
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     bool LoadModel(QString path);
+
 
     // processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
     void processNode(aiNode *node, const aiScene *scene);

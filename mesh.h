@@ -16,6 +16,7 @@
 #include <assimp/Importer.hpp>
 #include <string>
 
+
 using namespace std;
 
 class GameWindow;
@@ -50,12 +51,13 @@ public:
 
 
     QString name;
-    bool isSkinned = false;
     QVector<Vertex> vertices;
     QVector<unsigned int> indices;
     QVector<Texture> textures;
 
-    Mesh(QString name, QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture> textures);
+    aiMesh* assimpMesh;
+
+    Mesh(aiMesh* assimpMesh, QString name, QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture> textures);
 
     const GLfloat *constData() const { return m_data.constData(); }
     unsigned int vertexCount() const { return m_count; }
