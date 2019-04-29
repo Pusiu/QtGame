@@ -7,9 +7,15 @@ Model::Model()
 
 }
 
-Model::Model(QString path, bool gamma) : gammaCorrection(gamma)
+Model::~Model()
 {
-    LoadModel(path);
+    for(int i = 0; i < meshes.size(); i++)
+        delete meshes[i];
+}
+
+Model::Model(QString path)
+{
+        LoadModel(path);
 }
 
 void Model::Draw()
@@ -31,55 +37,11 @@ bool Model::LoadModel(QString path)
 
     processNode(scene->mRootNode, scene);
     assimpRootNode=scene->mRootNode;
-
-    if (scene->HasAnimations())
-    {
-        Debug::Log("Loading skeleton");
-        FindSkeleton();
-    }
     return true;
 }
 
-aiNode* Model::FindSkeleton()
-{
-    int minDistance = 100;
-    aiNode* rootBone = nullptr;
 
-    for (int i=0; i < meshes.size();i++)
-    {
-        aiMesh* m= meshes[i]->assimpMesh;
-        for (int j=0; j < m->mNumBones; j++)
-            allBones.push_back(m->mBones[j]);
-    }
 
-    for (int i=0; i < allBones.size();i++)
-    {
-        int distance=0;
-        aiNode* curNode=assimpRootNode;
-        QQueue<aiNode*> q;
-        q.push_back(curNode);
-        while (!q.empty())
-        {
-            curNode=q.front();
-            q.pop_front();
-            if (allBones[i]->mName == curNode->mName)
-                break;
-
-            distance++;
-            for (int j=0; j < curNode->mNumChildren; j++)
-            {
-                q.push_back(curNode->mChildren[j]);
-            }
-        }
-        if (distance < minDistance)
-        {
-            minDistance=distance;
-            rootBone=curNode;
-        }
-    }
-
-    return rootBone;
-}
 
 void Model::processNode(aiNode *node, const aiScene *scene)
 {

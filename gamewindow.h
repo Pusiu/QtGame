@@ -6,10 +6,13 @@
 #include <QMatrix4x4>
 #include <QKeyEvent>
 #include <QMap>
+#include <QElapsedTimer>
 #include "gameobject.h"
 #include "player.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
+
+QT_FORWARD_DECLARE_CLASS(Shader)
 
 class GameWindow : public QOpenGLWidget, public QOpenGLFunctions
 {
@@ -24,8 +27,27 @@ public:
 
 
     QVector<GameObject*> gameObjects;
+    QVector<Shader*> shaders;
+
     Player* player;
-    int m_timer;
+    QVector3D cameraDirection;
+
+    unsigned long m_timer = 0;
+    QElapsedTimer timerSinceStart;
+
+    void BindCurrentShader(Shader* shader);
+
+
+    void initializeGL() override;
+    void paintGL() override;
+    void resizeGL(int width, int height) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+
+    void setTransforms(void);
+    void qNormalizeAngle(float &angle);
 
 public slots:
     void setXRotation(float angle);
@@ -38,17 +60,7 @@ signals:
     void yRotationChanged(float angle);
     void zRotationChanged(float angle);
 
-protected:
-    void initializeGL() override;
-    void paintGL() override;
-    void resizeGL(int width, int height) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
 
-    void setTransforms(void);
-    void qNormalizeAngle(float &angle);
 
 private:
         struct LightLocStruct

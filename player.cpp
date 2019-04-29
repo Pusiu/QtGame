@@ -3,21 +3,24 @@
 
 Player::Player(QString modelPath) : GameObject ()
 {
-    model = new AnimatedModel(Model(modelPath), nullptr, -1);
+    model = new AnimatedModel(modelPath);
+
+
 
     position = QVector3D(0, 0, 0);
     direction = QVector3D(0, 0, -1);
-    speed = 0.01f;
+    speed = 0.1f;
 }
 
 void Player::Update()
 {
-
+    model->Update();
 }
 
-void Player::Render()
+void Player::Render(QMatrix4x4* world)
 {
-    model->model.Draw();
+    GameObject::Render(world);
+    model->Draw(this->shader);
 }
 
 Player::~Player()

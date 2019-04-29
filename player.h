@@ -16,7 +16,7 @@ public:
     float speed;
 
     void Update() override;
-    void Render() override;
+    virtual void Render(QMatrix4x4* world) override;
     ~Player() override;
 };
 

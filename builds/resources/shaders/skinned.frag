@@ -1,21 +1,21 @@
-uniform highp vec3 modelColor;
-varying highp vec3 fragNormal;
-varying highp vec3 vertexWorldSpace;
+#version 120
+#include "sampling.glh"
 
-struct Light {
-    highp vec3 position;
-    highp vec3 ambient;
-    highp vec3 diffuse;
-};
-uniform Light light;
+varying vec2 texCoord0;
+varying vec3 worldPos0;
+varying mat3 tbnMatrix;
 
-void main() {
-    highp vec3 N = normalize(fragNormal);
-    highp vec3 L = normalize(light.position - vertexWorldSpace);
-    highp float cosNL = dot(N, L);
-    cosNL = clamp(cosNL, 0.0, 1.0);
-    highp vec3 colorAmb = modelColor * light.ambient;
-    highp vec3 colorDif = modelColor * light.diffuse * cosNL;
-    highp vec3 colorFull = clamp(colorAmb + colorDif, 0.0, 1.0);
-    gl_FragColor = vec4(colorFull, 1.0);
+uniform vec3 R_ambient;
+uniform vec3 C_eyePos;
+uniform sampler2D diffuse;
+uniform sampler2D dispMap;
+
+uniform float dispMapScale;
+uniform float dispMapBias;
+
+void main()
+{
+        vec3 directionToEye = normalize(C_eyePos - worldPos0);
+        vec2 texCoords = CalcParallaxTexCoords(dispMap, tbnMatrix, directionToEye, texCoord0, dispMapScale, dispMapBias);
+        gl_FragColor = texture2D(diffuse, texCoords) * vec4(R_ambient, 1);
 }

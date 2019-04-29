@@ -10,8 +10,9 @@ void Cube::Update()
 
 }
 
-void Cube::Render()
+void Cube::Render(QMatrix4x4* world)
 {
+    GameObject::Render(world);
     model->Draw();
 }
 

@@ -1,11 +1,6 @@
 SOURCES += \
     gameobject.cpp \
     AnimationSystem/animatedmodel.cpp \
-    AnimationSystem/animation.cpp \
-    AnimationSystem/animator.cpp \
-    AnimationSystem/joint.cpp \
-    AnimationSystem/jointtransform.cpp \
-    AnimationSystem/keyframe.cpp \
     debug/moc_gamewindow.cpp \
     debug/moc_mainwindow.cpp \
     debug/moc_window.cpp \
@@ -17,16 +12,13 @@ SOURCES += \
     player.cpp \
     window.cpp \
     debug.cpp \
-    cube.cpp
+    cube.cpp \
+    AnimationSystem/bone.cpp \
+    shader.cpp
 
 HEADERS += \
     gameobject.h \
     AnimationSystem/animatedmodel.h \
-    AnimationSystem/animation.h \
-    AnimationSystem/animator.h \
-    AnimationSystem/joint.h \
-    AnimationSystem/jointtransform.h \
-    AnimationSystem/keyframe.h \
     debug/moc_predefs.h \
     lib/assimp/include/assimp/Compiler/poppack1.h \
     lib/assimp/include/assimp/Compiler/pstdint.h \
@@ -110,7 +102,10 @@ HEADERS += \
     player.h \
     window.h \
     debug.h \
-    cube.h
+    cube.h \
+    AnimationSystem/bone.h \
+    utils.h \
+    shader.h
 
 QT           += widgets gui
 QMAKE_LFLAGS
@@ -135,7 +130,9 @@ DISTFILES += \
     lib/assimp/assimp-vc140-mt.lib \
     lib/assimp/assimp-vc140-mt.dll \
     lib/assimp/include/assimp/.editorconfig \
-    lib/assimp/include/assimp/config.h.in
+    lib/assimp/include/assimp/config.h.in \
+    builds/resources/shaders/sampling.glh \
+    builds/resources/shaders/skinned2.vert
 
 
 win32: LIBS += -L$$PWD/'lib/assimp/' -lassimp-vc140-mt

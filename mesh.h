@@ -71,6 +71,14 @@ public:
 
     void render(GameWindow* window);
 
+    QVector<GLfloat> m_data;
+    unsigned int m_count;
+    GLenum m_primitive = GL_TRIANGLES;
+    GLint stride = 6 * sizeof(GLfloat); //stride is elements * size of element
+
+    QOpenGLVertexArrayObject m_vao;
+    QOpenGLBuffer m_vbo;
+    QOpenGLVertexArrayObject::Binder* m_vao_binder;
 
 private:
     void add(const QVector3D &v, const QVector3D &n);
@@ -80,13 +88,7 @@ private:
                GLfloat x3, GLfloat y3, GLfloat z3,
                GLfloat x4, GLfloat y4, GLfloat z4);
 
-    QVector<GLfloat> m_data;
-    unsigned int m_count;
-    GLenum m_primitive = GL_TRIANGLES;
 
-    QOpenGLVertexArrayObject m_vao;
-    QOpenGLBuffer m_vbo;
-    QOpenGLVertexArrayObject::Binder* m_vao_binder;
 };
 
 #endif // CMesh_H

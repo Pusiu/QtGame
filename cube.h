@@ -11,7 +11,7 @@ public:
     Model* model;
 
     void Update() override;
-    void Render() override;
+    void Render(QMatrix4x4* world) override;
     ~Cube() override;
 };
 

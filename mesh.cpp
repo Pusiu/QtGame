@@ -17,6 +17,7 @@ Mesh::~Mesh()
     m_vbo.destroy();
     delete m_vao_binder;
 }
+QOpenGLBuffer vio;
 
 Mesh::Mesh(aiMesh* assimpMesh, QString name, QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture> textures)
 {
@@ -35,6 +36,10 @@ Mesh::Mesh(aiMesh* assimpMesh, QString name, QVector<Vertex> vertices, QVector<u
     m_primitive = GL_TRIANGLES;
     // now that we have all the required data, set the vertex buffers and its attribute pointers.
     initVboAndVao();
+    vio.create();
+    vio.bind();
+    vio.allocate(indices.constData(), indices.size());
+
 }
 
 
@@ -50,6 +55,7 @@ void Mesh::add(const QVector3D &v, const QVector3D &n)
     m_count++;
 }
 
+
 void Mesh::initVboAndVao()
 {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
@@ -63,8 +69,8 @@ void Mesh::initVboAndVao()
 
     f->glEnableVertexAttribArray(0);
     f->glEnableVertexAttribArray(1);
-    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
+    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, nullptr);
+    f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void *>(3 * sizeof(GLfloat)));
 
 }
 
@@ -74,6 +80,7 @@ void Mesh::render(GameWindow* window)
 {
     m_vao_binder->rebind();
     window->glDrawArrays(m_primitive, 0, vertexCount());
+
     //window->glDrawElements(m_primitive, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
