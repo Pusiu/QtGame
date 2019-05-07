@@ -1,9 +1,6 @@
 SOURCES += \
     gameobject.cpp \
     AnimationSystem/animatedmodel.cpp \
-    debug/moc_gamewindow.cpp \
-    debug/moc_mainwindow.cpp \
-    debug/moc_window.cpp \
     gamewindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -19,7 +16,6 @@ SOURCES += \
 HEADERS += \
     gameobject.h \
     AnimationSystem/animatedmodel.h \
-    debug/moc_predefs.h \
     lib/assimp/include/assimp/Compiler/poppack1.h \
     lib/assimp/include/assimp/Compiler/pstdint.h \
     lib/assimp/include/assimp/Compiler/pushpack1.h \
@@ -107,10 +103,10 @@ HEADERS += \
     utils.h \
     shader.h
 
-QT           += widgets gui
+QT           += core widgets gui
 QMAKE_LFLAGS
 
-LIBS += opengl32.lib
+LIBS += libopengl32 libQt5Gui libQt5Widgets libQt5Core
 
 target.path = ./qtgame
 INSTALLS += target
@@ -127,15 +123,15 @@ DISTFILES += \
     builds/resources/shaders/simple.vert \
     builds/resources/shaders/skinned.frag \
     builds/resources/shaders/skinned.vert \
-    lib/assimp/assimp-vc140-mt.lib \
-    lib/assimp/assimp-vc140-mt.dll \
+    lib/assimp/libassimp.dll \
+    lib/assimp/libassimp.dll.a \
     lib/assimp/include/assimp/.editorconfig \
     lib/assimp/include/assimp/config.h.in \
     builds/resources/shaders/sampling.glh \
     builds/resources/shaders/skinned2.vert
 
 
-win32: LIBS += -L$$PWD/'lib/assimp/' -lassimp-vc140-mt
+win32: LIBS += -L$$PWD/'lib/assimp/' -llibassimp
 
 INCLUDEPATH += $$PWD/'lib/assimp/include'
 DEPENDPATH += $$PWD/'lib/assimp/include'

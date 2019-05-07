@@ -198,7 +198,11 @@ void AnimatedModel::LoadAnimatedModel(QString path)
             this->model->meshes[0]->m_vao_binder->release();
 
 
-            animation = new aiAnimation(*(scene->mAnimations[0]));
+            for (int i=0; i < scene->mNumAnimations;i++)
+                allAnimations.push_back(new aiAnimation(*(scene->mAnimations[i])));
+
+            //animation = new aiAnimation(*(scene->mAnimations[0]));
+            animation=allAnimations[0];
             this->boneTransforms.resize(boneMap.size());
 
             this->root			 = scene->mRootNode;

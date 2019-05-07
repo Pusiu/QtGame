@@ -15,6 +15,10 @@ public:
     QVector3D direction;
     float speed;
 
+    bool isMoving=false;
+
+    void SetAnimation(int index);
+
     void Update() override;
     virtual void Render(QMatrix4x4* world) override;
     ~Player() override;

@@ -16,6 +16,7 @@ public:
     QVector<Bone*>		bones;
     QVector<QMatrix4x4> 	boneTransforms;
     aiNode*		root;
+    QVector<aiAnimation*> allAnimations;
     aiAnimation*	animation;
 
     QOpenGLBuffer indices;

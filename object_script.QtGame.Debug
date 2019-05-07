@@ -1,0 +1,16 @@
+builds/objects/gameobject.o
+builds/objects/animatedmodel.o
+builds/objects/gamewindow.o
+builds/objects/main.o
+builds/objects/mainwindow.o
+builds/objects/mesh.o
+builds/objects/model.o
+builds/objects/player.o
+builds/objects/window.o
+builds/objects/debug.o
+builds/objects/cube.o
+builds/objects/bone.o
+builds/objects/shader.o
+builds/objects/moc_gamewindow.o
+builds/objects/moc_mainwindow.o
+builds/objects/moc_window.o

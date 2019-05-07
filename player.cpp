@@ -12,8 +12,18 @@ Player::Player(QString modelPath) : GameObject ()
     speed = 0.1f;
 }
 
+void Player::SetAnimation(int index)
+{
+    model->animation = model->allAnimations[index];
+}
+
 void Player::Update()
 {
+    if (isMoving)
+        SetAnimation(0);
+    else
+        SetAnimation(1);
+
     model->Update();
 }
 

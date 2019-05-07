@@ -177,7 +177,7 @@ void GameWindow::BindCurrentShader(Shader* shader)
 }
 
 
-
+float phi;
 void GameWindow::paintGL()
 {
     update();
@@ -214,18 +214,20 @@ void GameWindow::paintGL()
     //m_camera.lookAt(QVector3D(0,0,0), QVector3D(-5,0,0), QVector3D(0,1,0));
 
 
-    float phi = atan2(cameraDirection.z(), cameraDirection.x());
+    //float phi = atan2(cameraDirection.z(), cameraDirection.x());
 
 
     if(m_keyState[Qt::Key_Z]) m_camDistance += 0.05f;
     if(m_keyState[Qt::Key_X]) m_camDistance -= 0.05f;
 
+    player->isMoving=false;
     if (m_keyState[Qt::Key_W])
     {
         player->position.setX(player->position.x() + cameraDirection.x() * player->speed);
         player->position.setZ(player->position.z() + cameraDirection.z() * player->speed);
         //player->rotation = QQuaternion::fromEulerAngles(0,-phi * 180.0f / M_PI,0);
         phi = atan2(cameraDirection.z(), cameraDirection.x());
+        player->isMoving=true;
     }
     if (m_keyState[Qt::Key_S])
     {
@@ -234,20 +236,23 @@ void GameWindow::paintGL()
         player->rotation = QQuaternion::fromEulerAngles(0,-phi * 180.0f / M_PI,0);
         //player->rotation=player->rotation.inverted();
         phi = atan2(-cameraDirection.z(), -cameraDirection.x());
+        player->isMoving=true;
     }
     if (m_keyState[Qt::Key_A])
     {
         player->position.setX(player->position.x() + cameraDirection.z() * player->speed);
         player->position.setZ(player->position.z() - cameraDirection.x() * player->speed);
         //player->rotation = QQuaternion::fromEulerAngles(0,(-phi-80) * 180.0f / M_PI,0);
-        phi = atan2(cameraDirection.z(), cameraDirection.x()) - 80.0f;
+        phi = atan2(cameraDirection.z(), cameraDirection.x()) + 80.0f;
+        player->isMoving=true;
     }
     if (m_keyState[Qt::Key_D])
     {
         player->position.setX(player->position.x() - cameraDirection.z() * player->speed);
         player->position.setZ(player->position.z() + cameraDirection.x() * player->speed);
         //player->rotation = QQuaternion::fromEulerAngles(0,(-phi+80) * 180.0f / M_PI,0);
-        phi = atan2(cameraDirection.z(), cameraDirection.x()) + 80.0f;
+        phi = atan2(cameraDirection.z(), cameraDirection.x()) - 80.0f;
+        player->isMoving=true;
     }
     if (m_keyState[Qt::Key_R])
     {
