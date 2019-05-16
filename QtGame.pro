@@ -103,10 +103,10 @@ HEADERS += \
     utils.h \
     shader.h
 
-QT           += core widgets gui
+QT           += core widgets gui opengl
 QMAKE_LFLAGS
 
-LIBS += libopengl32 libQt5Gui libQt5Widgets libQt5Core
+LIBS += libopengl32
 
 target.path = ./qtgame
 INSTALLS += target
@@ -123,15 +123,16 @@ DISTFILES += \
     builds/resources/shaders/simple.vert \
     builds/resources/shaders/skinned.frag \
     builds/resources/shaders/skinned.vert \
-    lib/assimp/libassimp.dll \
-    lib/assimp/libassimp.dll.a \
+    lib/assimp/libassimp32.dll \
+    lib/assimp/libassimp64.dll \
+    lib/assimp/libassimp32.dll.a \
     lib/assimp/include/assimp/.editorconfig \
     lib/assimp/include/assimp/config.h.in \
     builds/resources/shaders/sampling.glh \
     builds/resources/shaders/skinned2.vert
 
 
-win32: LIBS += -L$$PWD/'lib/assimp/' -llibassimp
+LIBS += -L$$PWD/lib/assimp/ -llibassimp32
 
-INCLUDEPATH += $$PWD/'lib/assimp/include'
-DEPENDPATH += $$PWD/'lib/assimp/include'
+INCLUDEPATH += $$PWD/lib/assimp/include
+DEPENDPATH += $$PWD/lib/assimp/include
