@@ -1,4 +1,5 @@
 INPUT(
+./builds\objects\audiosource.o
 ./builds\objects\gameobject.o
 ./builds\objects\animatedmodel.o
 ./builds\objects\gamewindow.o
@@ -7,6 +8,7 @@ INPUT(
 ./builds\objects\mesh.o
 ./builds\objects\model.o
 ./builds\objects\player.o
+./builds\objects\texturemanager.o
 ./builds\objects\window.o
 ./builds\objects\debug.o
 ./builds\objects\cube.o

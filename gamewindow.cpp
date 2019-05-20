@@ -19,6 +19,10 @@ GameWindow::GameWindow(QWidget *parent) : QOpenGLWidget(parent), m_program(nullp
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
 
+    for (int i=0; i < 255; i++)
+        m_keyState[i] = false;
+
+
     /*QCursor c = cursor();
     c.setShape(Qt::CursorShape::BlankCursor);
     setCursor(c);*/
@@ -102,6 +106,8 @@ void GameWindow::initializeGL()
 
     shaders.push_back(new Shader("simple", "resources/shaders/simple.vert", "resources/shaders/simple.frag"));
     shaders.push_back(new Shader("skinned", "resources/shaders/skinned2.vert", "resources/shaders/simple.frag"));
+    TextureManager::Init();
+
 
     m_program=shaders[0]->program;
     /*m_program = new QOpenGLShaderProgram();
@@ -141,12 +147,13 @@ void GameWindow::initializeGL()
     gameObjects.push_front(trooper);*/
 
     player = new Player("resources/meshes/paratrooper.fbx");
+    player->texture=TextureManager::GetTexture("paratrooper");
     player->scale = QVector3D(0.0005,0.0005,0.0005);
     player->shader = shaders[1];
     gameObjects.push_front(player);
 
 
-
+    AudioSource::Init();
 
 
     //gameObjects.insert("Paratrooper", new Model("resources/meshes/paratrooper.fbx"));
@@ -170,9 +177,10 @@ void GameWindow::BindCurrentShader(Shader* shader)
     m_lightLoc.position = m_program->uniformLocation("light.position");
     m_lightLoc.ambient = m_program->uniformLocation("light.ambient");
     m_lightLoc.diffuse = m_program->uniformLocation("light.diffuse");
+    m_hasTextureLoc = m_program->uniformLocation("hasTexture");
 
     m_program->setUniformValue(m_lightLoc.position, QVector3D(0.0f, 0.0f, 15.0f));
-    m_program->setUniformValue(m_lightLoc.ambient, QVector3D(0.1f, 0.1f, 0.1f));
+    m_program->setUniformValue(m_lightLoc.ambient, QVector3D(0.4f, 0.4f, 0.4f));
     m_program->setUniformValue(m_lightLoc.diffuse, QVector3D(0.9f, 0.9f, 0.9f));
 }
 
@@ -185,9 +193,6 @@ void GameWindow::paintGL()
     {
         gameObjects[i]->Update();
     }
-
-
-
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -220,14 +225,14 @@ void GameWindow::paintGL()
     if(m_keyState[Qt::Key_Z]) m_camDistance += 0.05f;
     if(m_keyState[Qt::Key_X]) m_camDistance -= 0.05f;
 
-    player->isMoving=false;
+    player->desiredAnimationState = Player::Idle;
     if (m_keyState[Qt::Key_W])
     {
         player->position.setX(player->position.x() + cameraDirection.x() * player->speed);
         player->position.setZ(player->position.z() + cameraDirection.z() * player->speed);
         //player->rotation = QQuaternion::fromEulerAngles(0,-phi * 180.0f / M_PI,0);
         phi = atan2(cameraDirection.z(), cameraDirection.x());
-        player->isMoving=true;
+        player->desiredAnimationState = Player::Running;
     }
     if (m_keyState[Qt::Key_S])
     {
@@ -236,7 +241,7 @@ void GameWindow::paintGL()
         player->rotation = QQuaternion::fromEulerAngles(0,-phi * 180.0f / M_PI,0);
         //player->rotation=player->rotation.inverted();
         phi = atan2(-cameraDirection.z(), -cameraDirection.x());
-        player->isMoving=true;
+        player->desiredAnimationState = Player::Running;
     }
     if (m_keyState[Qt::Key_A])
     {
@@ -244,7 +249,7 @@ void GameWindow::paintGL()
         player->position.setZ(player->position.z() - cameraDirection.x() * player->speed);
         //player->rotation = QQuaternion::fromEulerAngles(0,(-phi-80) * 180.0f / M_PI,0);
         phi = atan2(cameraDirection.z(), cameraDirection.x()) + 80.0f;
-        player->isMoving=true;
+        player->desiredAnimationState = Player::Running;
     }
     if (m_keyState[Qt::Key_D])
     {
@@ -252,13 +257,28 @@ void GameWindow::paintGL()
         player->position.setZ(player->position.z() + cameraDirection.x() * player->speed);
         //player->rotation = QQuaternion::fromEulerAngles(0,(-phi+80) * 180.0f / M_PI,0);
         phi = atan2(cameraDirection.z(), cameraDirection.x()) - 80.0f;
-        player->isMoving=true;
+        player->desiredAnimationState = Player::Running;
     }
-    if (m_keyState[Qt::Key_R])
+    if (m_keyState[Qt::Key_1])
     {
         for (auto i : shaders)
             i->Reload();
     }
+
+    if (mouseButtonState[1])
+    {
+        player->desiredAnimationState = Player::Aiming;
+        phi = atan2(cameraDirection.z(), cameraDirection.x());
+    }
+
+    if (player->desiredAnimationState == Player::Aiming)
+    {
+        if (mouseButtonState[0])
+            player->Shoot();
+        if (m_keyState[Qt::Key_R])
+            player->Reload();
+    }
+
 
     player->rotation = player->rotation.fromEulerAngles(0,-phi * 180.0f / M_PI,0);
 
@@ -267,11 +287,18 @@ void GameWindow::paintGL()
         worldMatrixStack.push(m_world);
         gameObjects[i]->Render(&m_world);
         m_program->setUniformValue(m_modelColorLoc,QVector3D(1.0f, 1.0, 1.0));
+        if (gameObjects[i]->texture != nullptr)
+        {
+            m_program->setUniformValue(m_hasTextureLoc, 1);
+            gameObjects[i]->texture->bind();
+        }
+        else
+            m_program->setUniformValue(m_hasTextureLoc, 0);
 
         m_world = worldMatrixStack.pop();
+        m_program->release();
     }
 
-    m_program->release();
 
     m_timer++;
 
@@ -297,10 +324,20 @@ void GameWindow::resizeGL(int w, int h)
 void GameWindow::mousePressEvent(QMouseEvent *event)
 {
     m_lastPos = event->pos();
+    mouseButtonState[0]=event->buttons() & Qt::MouseButton::LeftButton;
+    mouseButtonState[1]=event->buttons() & Qt::MouseButton::RightButton;
+}
+
+void GameWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    mouseButtonState[0]=event->buttons() & Qt::MouseButton::LeftButton;
+    mouseButtonState[1]=event->buttons() & Qt::MouseButton::RightButton;
 }
 
 void GameWindow::mouseMoveEvent(QMouseEvent *event)
 {
+
+
     /*int dx = event->x() - m_lastPos.x();
     int dy = event->y() - m_lastPos.y();*/
 

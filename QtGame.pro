@@ -1,4 +1,5 @@
 SOURCES += \
+    audiosource.cpp \
     gameobject.cpp \
     AnimationSystem/animatedmodel.cpp \
     gamewindow.cpp \
@@ -7,6 +8,7 @@ SOURCES += \
     mesh.cpp \
     model.cpp \
     player.cpp \
+    texturemanager.cpp \
     window.cpp \
     debug.cpp \
     cube.cpp \
@@ -14,6 +16,7 @@ SOURCES += \
     shader.cpp
 
 HEADERS += \
+    audiosource.h \
     gameobject.h \
     AnimationSystem/animatedmodel.h \
     lib/assimp/include/assimp/Compiler/poppack1.h \
@@ -96,6 +99,7 @@ HEADERS += \
     mesh.h \
     model.h \
     player.h \
+    texturemanager.h \
     window.h \
     debug.h \
     cube.h \
@@ -103,7 +107,7 @@ HEADERS += \
     utils.h \
     shader.h
 
-QT           += core widgets gui opengl
+QT           += core widgets gui opengl multimedia
 QMAKE_LFLAGS
 
 LIBS += libopengl32
@@ -117,11 +121,8 @@ OBJECTS_DIR = builds/objects
 DISTFILES += \
     shaders/simple.frag \
     shaders/simple.vert \
-    meshes/paratrooper.obj \
-    builds/resources/meshes/paratrooper.mtl \
     builds/resources/shaders/simple.frag \
     builds/resources/shaders/simple.vert \
-    builds/resources/shaders/skinned.frag \
     builds/resources/shaders/skinned.vert \
     lib/assimp/libassimp32.dll \
     lib/assimp/libassimp64.dll \

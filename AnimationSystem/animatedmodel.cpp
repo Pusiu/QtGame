@@ -210,6 +210,29 @@ void AnimatedModel::LoadAnimatedModel(QString path)
 
 }
 
+void AnimatedModel::SetCurrentAnimation(QString animName, bool loop)
+{
+
+    for (int i=0; i < allAnimations.length(); i++)
+    {
+        QString n(allAnimations[i]->mName.data);
+        if (n.contains(animName, Qt::CaseSensitivity::CaseInsensitive))
+        {
+            animation=allAnimations[i];
+            break;
+        }
+    }
+    timer = GameWindow::instance->timerSinceStart.elapsed();
+    currentAnimationEnded=true;
+    if (loop)
+        currentAnimationEndTime=0;
+    else
+    {
+        currentAnimationEnded=false;
+        currentAnimationEndTime=GameWindow::instance->timerSinceStart.elapsed()+((animation->mDuration/animation->mTicksPerSecond)*1000);
+    }
+}
+
 void AnimatedModel::Draw(Shader* shader) {
     /*stringstream ss;
     for(int i = 0; i < boneTransforms->size(); i++)
@@ -278,12 +301,17 @@ void AnimatedModel::Draw(Shader* shader) {
 void AnimatedModel::Update() {
 
     SetBoneTransforms((float)(((double)GameWindow::instance->timerSinceStart.elapsed() - (double)timer) / 1000.0));
+    if (currentAnimationEndTime != 0)
+    {
+        if (GameWindow::instance->timerSinceStart.elapsed() >= currentAnimationEndTime)
+            currentAnimationEnded=true;
+    }
 }
 
 aiNodeAnim* AnimatedModel::FindNodeAnim(aiAnimation* pAnimation, QString NodeName)
 {
     for (int i = 0 ; i < pAnimation->mNumChannels; i++) {
-        aiNodeAnim* pNodeAnim = new aiNodeAnim(*(pAnimation->mChannels[i]));
+        aiNodeAnim* pNodeAnim = (pAnimation->mChannels[i]);
 
         const char* c1 = pNodeAnim->mNodeName.C_Str();
         string c3 = NodeName.toStdString();

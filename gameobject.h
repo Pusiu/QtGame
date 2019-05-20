@@ -4,6 +4,7 @@
 #include <QVector3D>
 #include <QQuaternion>
 #include <shader.h>
+#include <texturemanager.h>
 
 class GameObject
 {
@@ -14,6 +15,7 @@ public:
     QVector3D scale;
 
     Shader* shader;
+    QOpenGLTexture* texture=nullptr;
 
 
     GameObject();

@@ -227,7 +227,9 @@ Makefile: QtGame.pro G:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++/q
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/qtmaind.prl \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5OpenGL.prl \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Widgets.prl \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Multimedia.prl \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Gui.prl \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Network.prl \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Core.prl
 	$(QMAKE) -o Makefile QtGame.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 G:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/features/spec_pre.prf:
@@ -396,7 +398,9 @@ QtGame.pro:
 G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/qtmaind.prl:
 G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5OpenGL.prl:
 G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Widgets.prl:
+G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Multimedia.prl:
 G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Gui.prl:
+G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Network.prl:
 G:/Programy/QtMingw32/5.11.2/mingw53_32/lib/Qt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile QtGame.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"

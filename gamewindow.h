@@ -7,6 +7,8 @@
 #include <QKeyEvent>
 #include <QMap>
 #include <QElapsedTimer>
+#include "texturemanager.h"
+#include "audiosource.h"
 #include "gameobject.h"
 #include "player.h"
 
@@ -42,6 +44,7 @@ public:
     void paintGL() override;
     void resizeGL(int width, int height) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
@@ -76,6 +79,7 @@ private:
         int m_viewMatrixLoc;
         int m_modelMatrixLoc;
         int m_modelColorLoc;
+        int m_hasTextureLoc;
         LightLocStruct m_lightLoc;
 
         QMatrix4x4 m_proj;
@@ -85,6 +89,7 @@ private:
        // QMap<QString, Model*> m_models;
 
         bool m_keyState[256];
+        bool mouseButtonState[2] = {false,false};
 
         float m_camXRot = 15;
         float m_camYRot = 330;

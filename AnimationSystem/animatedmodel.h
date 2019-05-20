@@ -18,6 +18,8 @@ public:
     aiNode*		root;
     QVector<aiAnimation*> allAnimations;
     aiAnimation*	animation;
+    bool currentAnimationEnded=true;
+    unsigned long currentAnimationEndTime=0;
 
     QOpenGLBuffer indices;
 
@@ -26,6 +28,7 @@ public:
     AnimatedModel(QString path);
     ~AnimatedModel();
     void LoadAnimatedModel(QString path);
+    void SetCurrentAnimation(QString animName, bool loop = true);
 
     void Update();
     void Draw(Shader* shader);

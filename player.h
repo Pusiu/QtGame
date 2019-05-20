@@ -3,6 +3,7 @@
 
 #include <gameobject.h>
 
+
 class AnimatedModel;
 
 class Player : public GameObject
@@ -11,13 +12,21 @@ public:
 
     AnimatedModel* model;
 
+    enum AnimState {Idle, Running, Aiming, Other};
+    AnimState currentAnimationState = Idle;
+    AnimState desiredAnimationState = Idle;
+
     Player(QString modelPath);
     QVector3D direction;
     float speed;
 
     bool isMoving=false;
 
-    void SetAnimation(int index);
+    void PlayAnimation(QString animName, bool waitForEnd=true);
+    void Shoot();
+    void Reload();
+
+    unsigned long lastShotTime = 0;
 
     void Update() override;
     virtual void Render(QMatrix4x4* world) override;

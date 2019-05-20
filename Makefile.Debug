@@ -11,13 +11,13 @@ MAKEFILE      = Makefile.Debug
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_QML_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
+DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_QML_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
 CFLAGS        = -fno-keep-inline-dllexport -g -Wall -W -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -g -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
-INCPATH       = -I. -Ilib\assimp\include -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtOpenGL -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtWidgets -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtGui -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtANGLE -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtCore -Idebug -IG:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\win32-g++ 
+INCPATH       = -I. -Ilib\assimp\include -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtOpenGL -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtWidgets -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtMultimedia -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtGui -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtANGLE -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtNetwork -IG:\Programy\QtMingw32\5.11.2\mingw53_32\include\QtCore -Idebug -IG:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-subsystem,windows -mthreads
-LIBS        =        -lmingw32 -LG:\Programy\QtMingw32\5.11.2\mingw53_32\lib G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libqtmaind.a -LC:\openssl\lib -LC:\Utils\my_sql\mysql-5.6.11-win32\lib -LC:\Utils\postgresql\pgsql\lib -lshell32 -lopengl32 -L"C:\Users\Pusiu\Documents\Visual Studio 2017\Projects\QtGame\lib\assimp" "C:\Users\Pusiu\Documents\Visual Studio 2017\Projects\QtGame\lib\assimp\libassimp32.dll.a" G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5OpenGLd.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Widgetsd.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Guid.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Cored.a 
+LIBS        =        -lmingw32 -LG:\Programy\QtMingw32\5.11.2\mingw53_32\lib G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libqtmaind.a -LC:\openssl\lib -LC:\Utils\my_sql\mysql-5.6.11-win32\lib -LC:\Utils\postgresql\pgsql\lib -lshell32 -lopengl32 -L"C:\Users\Pusiu\Documents\Visual Studio 2017\Projects\QtGame\lib\assimp" "C:\Users\Pusiu\Documents\Visual Studio 2017\Projects\QtGame\lib\assimp\libassimp32.dll.a" G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5OpenGLd.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Widgetsd.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Multimediad.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Guid.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Networkd.a G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\libQt5Cored.a 
 QMAKE         = G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\qmake.exe
 IDC           = idc
 IDL           = midl
@@ -45,7 +45,8 @@ OBJECTS_DIR   = builds\objects
 
 ####### Files
 
-SOURCES       = gameobject.cpp \
+SOURCES       = audiosource.cpp \
+		gameobject.cpp \
 		AnimationSystem\animatedmodel.cpp \
 		gamewindow.cpp \
 		main.cpp \
@@ -53,6 +54,7 @@ SOURCES       = gameobject.cpp \
 		mesh.cpp \
 		model.cpp \
 		player.cpp \
+		texturemanager.cpp \
 		window.cpp \
 		debug.cpp \
 		cube.cpp \
@@ -60,7 +62,8 @@ SOURCES       = gameobject.cpp \
 		shader.cpp debug\moc_gamewindow.cpp \
 		debug\moc_mainwindow.cpp \
 		debug\moc_window.cpp
-OBJECTS       = builds/objects/gameobject.o \
+OBJECTS       = builds/objects/audiosource.o \
+		builds/objects/gameobject.o \
 		builds/objects/animatedmodel.o \
 		builds/objects/gamewindow.o \
 		builds/objects/main.o \
@@ -68,6 +71,7 @@ OBJECTS       = builds/objects/gameobject.o \
 		builds/objects/mesh.o \
 		builds/objects/model.o \
 		builds/objects/player.o \
+		builds/objects/texturemanager.o \
 		builds/objects/window.o \
 		builds/objects/debug.o \
 		builds/objects/cube.o \
@@ -79,11 +83,8 @@ OBJECTS       = builds/objects/gameobject.o \
 
 DIST          = shaders/simple.frag \
 		shaders/simple.vert \
-		meshes/paratrooper.obj \
-		builds/resources/meshes/paratrooper.mtl \
 		builds/resources/shaders/simple.frag \
 		builds/resources/shaders/simple.vert \
-		builds/resources/shaders/skinned.frag \
 		builds/resources/shaders/skinned.vert \
 		lib/assimp/libassimp32.dll \
 		lib/assimp/libassimp64.dll \
@@ -91,7 +92,8 @@ DIST          = shaders/simple.frag \
 		lib/assimp/include/assimp/.editorconfig \
 		lib/assimp/include/assimp/config.h.in \
 		builds/resources/shaders/sampling.glh \
-		builds/resources/shaders/skinned2.vert gameobject.h \
+		builds/resources/shaders/skinned2.vert audiosource.h \
+		gameobject.h \
 		AnimationSystem\animatedmodel.h \
 		lib\assimp\include\assimp\Compiler\poppack1.h \
 		lib\assimp\include\assimp\Compiler\pstdint.h \
@@ -173,12 +175,14 @@ DIST          = shaders/simple.frag \
 		mesh.h \
 		model.h \
 		player.h \
+		texturemanager.h \
 		window.h \
 		debug.h \
 		cube.h \
 		AnimationSystem\bone.h \
 		utils.h \
-		shader.h gameobject.cpp \
+		shader.h audiosource.cpp \
+		gameobject.cpp \
 		AnimationSystem\animatedmodel.cpp \
 		gamewindow.cpp \
 		main.cpp \
@@ -186,6 +190,7 @@ DIST          = shaders/simple.frag \
 		mesh.cpp \
 		model.cpp \
 		player.cpp \
+		texturemanager.cpp \
 		window.cpp \
 		debug.cpp \
 		cube.cpp \
@@ -210,10 +215,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) QtGame.zip $(SOURCES) $(DIST) QtGame.pro G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\spec_pre.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\qdevice.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\device_config.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\sanitize.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\gcc-base.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\g++-base.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\angle.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\windows-vulkan.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\g++-win32.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\qconfig.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3danimation.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3danimation_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickanimation.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickanimation_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickscene2d.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickscene2d_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3drender.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_accessibility_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axbase.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axserver.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_core.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_core_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_dbus.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_designer.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_edid_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_egl_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_fb_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gamepad.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gamepad_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gui.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_help.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_help_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_location.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_location_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_network.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_network_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_nfc.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_opengl.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioning.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioningquick.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioningquick_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qml.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quick.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_scxml.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sensors.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialport.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sql.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_svg.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_testlib.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_texttospeech.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_texttospeech_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_theme_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_uitools.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_websockets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_widgets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_winextras.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xml.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qt_functions.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qt_config.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\win32-g++\qmake.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\exclusive_builds.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\toolchain.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\default_pre.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\win32\default_pre.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\resolve_config.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\exclusive_builds_post.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\default_post.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\build_pass.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qml_debug.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\precompile_header.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\warn_on.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qt.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\resources.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\moc.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\win32\opengl.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\uic.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qmake_use.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\file_copies.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\win32\windows.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\testcase_targets.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\exceptions.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\yacc.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\lex.prf QtGame.pro G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\qtmaind.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5OpenGLd.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Widgetsd.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Guid.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Cored.prl    G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\data\dummy.cpp gameobject.h AnimationSystem\animatedmodel.h lib\assimp\include\assimp\Compiler\poppack1.h lib\assimp\include\assimp\Compiler\pstdint.h lib\assimp\include\assimp\Compiler\pushpack1.h lib\assimp\include\assimp\port\AndroidJNI\AndroidJNIIOSystem.h lib\assimp\include\assimp\ai_assert.h lib\assimp\include\assimp\anim.h lib\assimp\include\assimp\BaseImporter.h lib\assimp\include\assimp\Bitmap.h lib\assimp\include\assimp\BlobIOSystem.h lib\assimp\include\assimp\ByteSwapper.h lib\assimp\include\assimp\camera.h lib\assimp\include\assimp\cexport.h lib\assimp\include\assimp\cfileio.h lib\assimp\include\assimp\cimport.h lib\assimp\include\assimp\color4.h lib\assimp\include\assimp\config.h lib\assimp\include\assimp\CreateAnimMesh.h lib\assimp\include\assimp\DefaultIOStream.h lib\assimp\include\assimp\DefaultIOSystem.h lib\assimp\include\assimp\DefaultLogger.hpp lib\assimp\include\assimp\Defines.h lib\assimp\include\assimp\defs.h lib\assimp\include\assimp\Exceptional.h lib\assimp\include\assimp\Exporter.hpp lib\assimp\include\assimp\fast_atof.h lib\assimp\include\assimp\GenericProperty.h lib\assimp\include\assimp\Hash.h lib\assimp\include\assimp\Importer.hpp lib\assimp\include\assimp\importerdesc.h lib\assimp\include\assimp\IOStream.hpp lib\assimp\include\assimp\IOStreamBuffer.h lib\assimp\include\assimp\IOSystem.hpp lib\assimp\include\assimp\irrXMLWrapper.h lib\assimp\include\assimp\light.h lib\assimp\include\assimp\LineSplitter.h lib\assimp\include\assimp\LogAux.h lib\assimp\include\assimp\Logger.hpp lib\assimp\include\assimp\LogStream.hpp lib\assimp\include\assimp\Macros.h lib\assimp\include\assimp\material.h lib\assimp\include\assimp\MathFunctions.h lib\assimp\include\assimp\matrix3x3.h lib\assimp\include\assimp\matrix4x4.h lib\assimp\include\assimp\MemoryIOWrapper.h lib\assimp\include\assimp\mesh.h lib\assimp\include\assimp\metadata.h lib\assimp\include\assimp\NullLogger.hpp lib\assimp\include\assimp\ParsingUtils.h lib\assimp\include\assimp\pbrmaterial.h lib\assimp\include\assimp\postprocess.h lib\assimp\include\assimp\Profiler.h lib\assimp\include\assimp\ProgressHandler.hpp lib\assimp\include\assimp\qnan.h lib\assimp\include\assimp\quaternion.h lib\assimp\include\assimp\RemoveComments.h lib\assimp\include\assimp\scene.h lib\assimp\include\assimp\SceneCombiner.h lib\assimp\include\assimp\SGSpatialSort.h lib\assimp\include\assimp\SkeletonMeshBuilder.h lib\assimp\include\assimp\SmoothingGroups.h lib\assimp\include\assimp\SpatialSort.h lib\assimp\include\assimp\StandardShapes.h lib\assimp\include\assimp\StreamReader.h lib\assimp\include\assimp\StreamWriter.h lib\assimp\include\assimp\StringComparison.h lib\assimp\include\assimp\StringUtils.h lib\assimp\include\assimp\Subdivision.h lib\assimp\include\assimp\texture.h lib\assimp\include\assimp\TinyFormatter.h lib\assimp\include\assimp\types.h lib\assimp\include\assimp\vector2.h lib\assimp\include\assimp\vector3.h lib\assimp\include\assimp\version.h lib\assimp\include\assimp\Vertex.h lib\assimp\include\assimp\XMLTools.h gamewindow.h mainwindow.h mesh.h model.h player.h window.h debug.h cube.h AnimationSystem\bone.h utils.h shader.h  gameobject.cpp AnimationSystem\animatedmodel.cpp gamewindow.cpp main.cpp mainwindow.cpp mesh.cpp model.cpp player.cpp window.cpp debug.cpp cube.cpp AnimationSystem\bone.cpp shader.cpp     
+	$(ZIP) QtGame.zip $(SOURCES) $(DIST) QtGame.pro G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\spec_pre.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\qdevice.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\device_config.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\sanitize.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\gcc-base.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\g++-base.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\angle.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\windows-vulkan.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\common\g++-win32.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\qconfig.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3danimation.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3danimation_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickanimation.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickanimation_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickscene2d.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3dquickscene2d_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3drender.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_accessibility_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axbase.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axserver.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_core.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_core_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_dbus.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_designer.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_edid_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_egl_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_fb_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gamepad.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gamepad_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gui.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_help.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_help_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_location.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_location_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_network.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_network_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_nfc.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_opengl.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioning.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioningquick.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_positioningquick_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qml.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quick.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_scxml.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sensors.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialport.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sql.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_svg.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_testlib.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_texttospeech.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_texttospeech_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_theme_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_uitools.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_websockets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_widgets.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_winextras.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xml.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qt_functions.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qt_config.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\win32-g++\qmake.conf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\exclusive_builds.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\toolchain.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\default_pre.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\win32\default_pre.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\resolve_config.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\exclusive_builds_post.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\default_post.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\build_pass.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qml_debug.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\precompile_header.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\warn_on.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qt.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\resources.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\moc.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\win32\opengl.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\uic.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\qmake_use.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\file_copies.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\win32\windows.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\testcase_targets.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\exceptions.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\yacc.prf G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\lex.prf QtGame.pro G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\qtmaind.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5OpenGLd.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Widgetsd.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Multimediad.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Guid.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Networkd.prl G:\Programy\QtMingw32\5.11.2\mingw53_32\lib\Qt5Cored.prl    G:\Programy\QtMingw32\5.11.2\mingw53_32\mkspecs\features\data\dummy.cpp audiosource.h gameobject.h AnimationSystem\animatedmodel.h lib\assimp\include\assimp\Compiler\poppack1.h lib\assimp\include\assimp\Compiler\pstdint.h lib\assimp\include\assimp\Compiler\pushpack1.h lib\assimp\include\assimp\port\AndroidJNI\AndroidJNIIOSystem.h lib\assimp\include\assimp\ai_assert.h lib\assimp\include\assimp\anim.h lib\assimp\include\assimp\BaseImporter.h lib\assimp\include\assimp\Bitmap.h lib\assimp\include\assimp\BlobIOSystem.h lib\assimp\include\assimp\ByteSwapper.h lib\assimp\include\assimp\camera.h lib\assimp\include\assimp\cexport.h lib\assimp\include\assimp\cfileio.h lib\assimp\include\assimp\cimport.h lib\assimp\include\assimp\color4.h lib\assimp\include\assimp\config.h lib\assimp\include\assimp\CreateAnimMesh.h lib\assimp\include\assimp\DefaultIOStream.h lib\assimp\include\assimp\DefaultIOSystem.h lib\assimp\include\assimp\DefaultLogger.hpp lib\assimp\include\assimp\Defines.h lib\assimp\include\assimp\defs.h lib\assimp\include\assimp\Exceptional.h lib\assimp\include\assimp\Exporter.hpp lib\assimp\include\assimp\fast_atof.h lib\assimp\include\assimp\GenericProperty.h lib\assimp\include\assimp\Hash.h lib\assimp\include\assimp\Importer.hpp lib\assimp\include\assimp\importerdesc.h lib\assimp\include\assimp\IOStream.hpp lib\assimp\include\assimp\IOStreamBuffer.h lib\assimp\include\assimp\IOSystem.hpp lib\assimp\include\assimp\irrXMLWrapper.h lib\assimp\include\assimp\light.h lib\assimp\include\assimp\LineSplitter.h lib\assimp\include\assimp\LogAux.h lib\assimp\include\assimp\Logger.hpp lib\assimp\include\assimp\LogStream.hpp lib\assimp\include\assimp\Macros.h lib\assimp\include\assimp\material.h lib\assimp\include\assimp\MathFunctions.h lib\assimp\include\assimp\matrix3x3.h lib\assimp\include\assimp\matrix4x4.h lib\assimp\include\assimp\MemoryIOWrapper.h lib\assimp\include\assimp\mesh.h lib\assimp\include\assimp\metadata.h lib\assimp\include\assimp\NullLogger.hpp lib\assimp\include\assimp\ParsingUtils.h lib\assimp\include\assimp\pbrmaterial.h lib\assimp\include\assimp\postprocess.h lib\assimp\include\assimp\Profiler.h lib\assimp\include\assimp\ProgressHandler.hpp lib\assimp\include\assimp\qnan.h lib\assimp\include\assimp\quaternion.h lib\assimp\include\assimp\RemoveComments.h lib\assimp\include\assimp\scene.h lib\assimp\include\assimp\SceneCombiner.h lib\assimp\include\assimp\SGSpatialSort.h lib\assimp\include\assimp\SkeletonMeshBuilder.h lib\assimp\include\assimp\SmoothingGroups.h lib\assimp\include\assimp\SpatialSort.h lib\assimp\include\assimp\StandardShapes.h lib\assimp\include\assimp\StreamReader.h lib\assimp\include\assimp\StreamWriter.h lib\assimp\include\assimp\StringComparison.h lib\assimp\include\assimp\StringUtils.h lib\assimp\include\assimp\Subdivision.h lib\assimp\include\assimp\texture.h lib\assimp\include\assimp\TinyFormatter.h lib\assimp\include\assimp\types.h lib\assimp\include\assimp\vector2.h lib\assimp\include\assimp\vector3.h lib\assimp\include\assimp\version.h lib\assimp\include\assimp\Vertex.h lib\assimp\include\assimp\XMLTools.h gamewindow.h mainwindow.h mesh.h model.h player.h texturemanager.h window.h debug.h cube.h AnimationSystem\bone.h utils.h shader.h  audiosource.cpp gameobject.cpp AnimationSystem\animatedmodel.cpp gamewindow.cpp main.cpp mainwindow.cpp mesh.cpp model.cpp player.cpp texturemanager.cpp window.cpp debug.cpp cube.cpp AnimationSystem\bone.cpp shader.cpp     
 
 clean: compiler_clean 
-	-$(DEL_FILE) builds\objects\gameobject.o builds\objects\animatedmodel.o builds\objects\gamewindow.o builds\objects\main.o builds\objects\mainwindow.o builds\objects\mesh.o builds\objects\model.o builds\objects\player.o builds\objects\window.o builds\objects\debug.o builds\objects\cube.o builds\objects\bone.o builds\objects\shader.o builds\objects\moc_gamewindow.o builds\objects\moc_mainwindow.o builds\objects\moc_window.o
+	-$(DEL_FILE) builds\objects\audiosource.o builds\objects\gameobject.o builds\objects\animatedmodel.o builds\objects\gamewindow.o builds\objects\main.o builds\objects\mainwindow.o builds\objects\mesh.o builds\objects\model.o builds\objects\player.o builds\objects\texturemanager.o builds\objects\window.o builds\objects\debug.o builds\objects\cube.o builds\objects\bone.o builds\objects\shader.o builds\objects\moc_gamewindow.o builds\objects\moc_mainwindow.o builds\objects\moc_window.o
 
 distclean: clean 
 	-$(DEL_FILE) .qmake.stash
@@ -373,6 +378,15 @@ debug/moc_gamewindow.cpp: G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidg
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QVector3D \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
@@ -383,7 +397,7 @@ debug/moc_gamewindow.cpp: G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidg
 		gamewindow.h \
 		debug/moc_predefs.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/bin/moc.exe
-	G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\moc.exe $(DEFINES) --include "C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/debug/moc_predefs.h" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++ -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame" -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/lib/assimp/include" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtOpenGL -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt" gamewindow.h -o debug\moc_gamewindow.cpp
+	G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\moc.exe $(DEFINES) --include "C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/debug/moc_predefs.h" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++ -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame" -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/lib/assimp/include" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtOpenGL -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtNetwork -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt" gamewindow.h -o debug\moc_gamewindow.cpp
 
 debug/moc_mainwindow.cpp: G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QMainWindow \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qmainwindow.h \
@@ -495,7 +509,7 @@ debug/moc_mainwindow.cpp: G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidg
 		mainwindow.h \
 		debug/moc_predefs.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/bin/moc.exe
-	G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\moc.exe $(DEFINES) --include "C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/debug/moc_predefs.h" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++ -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame" -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/lib/assimp/include" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtOpenGL -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt" mainwindow.h -o debug\moc_mainwindow.cpp
+	G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\moc.exe $(DEFINES) --include "C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/debug/moc_predefs.h" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++ -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame" -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/lib/assimp/include" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtOpenGL -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtNetwork -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt" mainwindow.h -o debug\moc_mainwindow.cpp
 
 debug/moc_window.cpp: G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QWidget \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qwidget.h \
@@ -603,7 +617,7 @@ debug/moc_window.cpp: G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/
 		window.h \
 		debug/moc_predefs.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/bin/moc.exe
-	G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\moc.exe $(DEFINES) --include "C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/debug/moc_predefs.h" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++ -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame" -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/lib/assimp/include" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtOpenGL -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt" window.h -o debug\moc_window.cpp
+	G:\Programy\QtMingw32\5.11.2\mingw53_32\bin\moc.exe $(DEFINES) --include "C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/debug/moc_predefs.h" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/mkspecs/win32-g++ -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame" -I"C:/Users/Pusiu/Documents/Visual Studio 2017/Projects/QtGame/lib/assimp/include" -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtOpenGL -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtNetwork -IG:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt" window.h -o debug\moc_window.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -622,6 +636,82 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 
 ####### Compile
+
+builds/objects/audiosource.o: audiosource.cpp audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtguiglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qconfig.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qtcore-config.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsystemdetection.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qprocessordetection.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcompilerdetection.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qtypeinfo.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsysinfo.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qlogging.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qflags.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qbasicatomic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qgenericatomic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic_msvc.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qglobalstatic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmutex.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qnumeric.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qversiontagging.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtgui-config.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobject.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobjectdefs.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qnamespace.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstring.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qchar.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qbytearray.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qrefcount.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qarraydata.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringliteral.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringalgorithms.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringview.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringbuilder.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qlist.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qalgorithms.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qiterator.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qhashfunctions.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qpair.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qbytearraylist.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringlist.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qregexp.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringmatcher.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcoreevent.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qscopedpointer.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmetatype.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qvarlengtharray.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcontainerfwd.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobject_impl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qurl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qurlquery.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qshareddata.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qhash.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmap.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qdebug.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qtextstream.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qiodevice.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qlocale.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qvariant.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qvector.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qpoint.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qset.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcontiguouscache.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsharedpointer.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\audiosource.o audiosource.cpp
 
 builds/objects/gameobject.o: gameobject.cpp gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QVector3D \
@@ -721,6 +811,25 @@ builds/objects/gameobject.o: gameobject.cpp gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qrect.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmargins.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsize.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
 		gamewindow.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QOpenGLWidget \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qopenglwidget.h \
@@ -728,22 +837,8 @@ builds/objects/gameobject.o: gameobject.cpp gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qtwidgets-config.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QWidget \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qwidget.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpalette.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qbrush.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixmap.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qfont.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qfontmetrics.h \
@@ -759,9 +854,13 @@ builds/objects/gameobject.o: gameobject.cpp gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtouchdevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QMatrix4x4 \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QKeyEvent \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		player.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\gameobject.o gameobject.cpp
 
@@ -941,6 +1040,14 @@ builds/objects/animatedmodel.o: AnimationSystem/animatedmodel.cpp AnimationSyste
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
 		shader.h \
@@ -1084,6 +1191,15 @@ builds/objects/gamewindow.o: gamewindow.cpp gamewindow.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QVector3D \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
@@ -1137,8 +1253,7 @@ builds/objects/gamewindow.o: gamewindow.cpp gamewindow.h \
 		lib/assimp/include/assimp/postprocess.h \
 		lib/assimp/include/assimp/Importer.hpp \
 		utils.h \
-		AnimationSystem/bone.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString
+		AnimationSystem/bone.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\gamewindow.o gamewindow.cpp
 
 builds/objects/main.o: main.cpp G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QApplication \
@@ -1282,6 +1397,15 @@ builds/objects/main.o: main.cpp G:/Programy/QtMingw32/5.11.2/mingw53_32/include/
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QVector3D \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
@@ -1579,6 +1703,15 @@ builds/objects/mesh.o: mesh.cpp mesh.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
 		shader.h \
@@ -1763,6 +1896,15 @@ builds/objects/model.o: model.cpp model.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
 		shader.h \
@@ -1771,7 +1913,6 @@ builds/objects/model.o: model.cpp model.h \
 		player.h \
 		utils.h \
 		AnimationSystem/bone.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
 		debug.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QQueue \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qqueue.h
@@ -1876,9 +2017,34 @@ builds/objects/player.o: player.cpp player.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qrect.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmargins.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsize.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qurl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qurlquery.h \
 		AnimationSystem/animatedmodel.h \
 		debug.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
 		model.h \
 		mesh.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLVertexArrayObject \
@@ -1925,22 +2091,8 @@ builds/objects/player.o: player.cpp player.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qtwidgets-config.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QWidget \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qwidget.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpalette.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qbrush.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixmap.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qfont.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qfontmetrics.h \
@@ -1949,19 +2101,116 @@ builds/objects/player.o: player.cpp player.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcursor.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qkeysequence.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qevent.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qurl.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qurlquery.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qfile.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qfiledevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtouchdevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QMatrix4x4 \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QKeyEvent \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
 		utils.h \
 		AnimationSystem/bone.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\player.o player.cpp
+
+builds/objects/texturemanager.o: texturemanager.cpp texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmap.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qiterator.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qconfig.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qtcore-config.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsystemdetection.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qprocessordetection.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcompilerdetection.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qtypeinfo.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsysinfo.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qlogging.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qflags.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qbasicatomic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qgenericatomic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qatomic_msvc.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qglobalstatic.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmutex.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qnumeric.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qversiontagging.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qlist.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qalgorithms.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qrefcount.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qarraydata.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qhashfunctions.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstring.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qchar.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qbytearray.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qnamespace.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringliteral.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringalgorithms.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringview.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringbuilder.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qpair.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qbytearraylist.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringlist.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qregexp.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qstringmatcher.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qdebug.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qhash.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qtextstream.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qiodevice.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobject.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobjectdefs.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcoreevent.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qscopedpointer.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmetatype.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qvarlengtharray.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcontainerfwd.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qobject_impl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qlocale.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qvariant.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qshareddata.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qvector.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qpoint.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qset.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qcontiguouscache.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsharedpointer.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsharedpointer_impl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtguiglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtgui-config.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengl.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qt_windows.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE/GLES3/gl3.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE/GLES3/gl3platform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE/KHR/khrplatform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE/GLES2/gl2.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtANGLE/GLES2/gl2platform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengles2ext.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopenglext.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qrect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmargins.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsize.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qdatastream.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QScopedPointer
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\texturemanager.o texturemanager.cpp
 
 builds/objects/window.o: window.cpp G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QVBoxLayout \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qboxlayout.h \
@@ -2113,6 +2362,15 @@ builds/objects/window.o: window.cpp G:/Programy/QtMingw32/5.11.2/mingw53_32/incl
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		gameobject.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QVector3D \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QQuaternion \
@@ -2262,6 +2520,25 @@ builds/objects/cube.o: cube.cpp cube.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qrect.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qmargins.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qsize.h \
+		texturemanager.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLTexture \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qopengltexture.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
 		model.h \
 		mesh.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QOpenGLVertexArrayObject \
@@ -2308,22 +2585,8 @@ builds/objects/cube.o: cube.cpp cube.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qtwidgets-config.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QWidget \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/qwidget.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qwindowdefs_win.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpaintdevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpalette.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qcolor.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgb.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qrgba64.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qbrush.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qmatrix.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpolygon.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qregion.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtransform.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qimage.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixelformat.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpixmap.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qfont.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qfontmetrics.h \
@@ -2339,13 +2602,16 @@ builds/objects/cube.o: cube.cpp cube.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qtouchdevice.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QMatrix4x4 \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/QKeyEvent \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QMap \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QElapsedTimer \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qelapsedtimer.h \
+		audiosource.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/QSoundEffect \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qsoundeffect.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimediaglobal.h \
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtMultimedia/qtmultimedia-config.h \
 		player.h \
 		utils.h \
-		AnimationSystem/bone.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QString
+		AnimationSystem/bone.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\cube.o cube.cpp
 
 builds/objects/bone.o: AnimationSystem/bone.cpp AnimationSystem/bone.h \
