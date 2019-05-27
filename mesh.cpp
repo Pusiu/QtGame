@@ -29,7 +29,7 @@ Mesh::Mesh(aiMesh* assimpMesh, QString name, QVector<Vertex> vertices, QVector<u
     for (int i=0; i < indices.size(); i++)
     {
         Vertex v = vertices[indices[i]];
-        add(v.Position, v.Normal);
+        add(v.Position, v.Normal, v.TexCoords);
     }
     this->textures = textures;
 
@@ -44,7 +44,7 @@ Mesh::Mesh(aiMesh* assimpMesh, QString name, QVector<Vertex> vertices, QVector<u
 
 
 
-void Mesh::add(const QVector3D &v, const QVector3D &n)
+void Mesh::add(const QVector3D &v, const QVector3D &n, const QVector2D &uv)
 {
     m_data.append(v.x());
     m_data.append(v.y());
@@ -52,6 +52,8 @@ void Mesh::add(const QVector3D &v, const QVector3D &n)
     m_data.append(n.normalized().x());
     m_data.append(n.normalized().y());
     m_data.append(n.normalized().z());
+    m_data.append(uv.x());
+    m_data.append(uv.y());
     m_count++;
 }
 
@@ -69,8 +71,10 @@ void Mesh::initVboAndVao()
 
     f->glEnableVertexAttribArray(0);
     f->glEnableVertexAttribArray(1);
+    f->glEnableVertexAttribArray(2);
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, nullptr);
     f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void *>(3 * sizeof(GLfloat)));
+    f->glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void *>(6 * sizeof(GLfloat)));
 
 }
 
@@ -91,13 +95,13 @@ void Mesh::quad3(GLfloat x1, GLfloat y1, GLfloat z1,
 {
     QVector3D n = QVector3D::normal(QVector3D(x4 - x1, y4 - y1, z4 - z1), QVector3D(x2 - x1, y2 - y1, z2 - z1));
 
-    add(QVector3D(x1, y1, z1), n);
-    add(QVector3D(x4, y4, z4), n);
-    add(QVector3D(x2, y2, z2), n);
+    add(QVector3D(x1, y1, z1), n, QVector2D(0,1));
+    add(QVector3D(x4, y4, z4), n, QVector2D(1,1));
+    add(QVector3D(x2, y2, z2), n, QVector2D(0,0));
 
-    add(QVector3D(x3, y3, z3), n);
-    add(QVector3D(x2, y2, z2), n);
-    add(QVector3D(x4, y4, z4), n);
+    add(QVector3D(x3, y3, z3), n, QVector2D(1,0));
+    add(QVector3D(x2, y2, z2), n, QVector2D(0,0));
+    add(QVector3D(x4, y4, z4), n, QVector2D(0,1));
 }
 
 void Mesh::generateCube(GLfloat w, GLfloat h, GLfloat d)
@@ -175,7 +179,7 @@ void Mesh::generateMeshFromObjFile(QString filename)
                     if(hasNormals)
                         n = normals.at(indices.at(2).toInt() - 1);
 
-                    add(v, n);
+                    add(v, n, QVector2D(0,0));
                 }
             }
         }

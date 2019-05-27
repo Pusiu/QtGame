@@ -74,14 +74,14 @@ public:
     QVector<GLfloat> m_data;
     unsigned int m_count;
     GLenum m_primitive = GL_TRIANGLES;
-    GLint stride = 6 * sizeof(GLfloat); //stride is elements * size of element
+    GLint stride = 8 * sizeof(GLfloat); //stride is elements * size of element
 
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_vbo;
     QOpenGLVertexArrayObject::Binder* m_vao_binder;
 
 private:
-    void add(const QVector3D &v, const QVector3D &n);
+    void add(const QVector3D &v, const QVector3D &n, const QVector2D& uv);
 
     void quad3(GLfloat x1, GLfloat y1, GLfloat z1,
                GLfloat x2, GLfloat y2, GLfloat z2,

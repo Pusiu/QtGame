@@ -81,7 +81,8 @@ OBJECTS       = builds/objects/audiosource.o \
 		builds/objects/moc_mainwindow.o \
 		builds/objects/moc_window.o
 
-DIST          = shaders/simple.frag \
+DIST          = builds/resources/shaders/skybox.frag \
+		shaders/simple.frag \
 		shaders/simple.vert \
 		builds/resources/shaders/simple.frag \
 		builds/resources/shaders/simple.vert \
@@ -2209,7 +2210,8 @@ builds/objects/texturemanager.o: texturemanager.cpp texturemanager.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qdatastream.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/qline.h \
 		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtGui/qpainterpath.h \
-		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QScopedPointer
+		G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtCore/QScopedPointer \
+		debug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o builds\objects\texturemanager.o texturemanager.cpp
 
 builds/objects/window.o: window.cpp G:/Programy/QtMingw32/5.11.2/mingw53_32/include/QtWidgets/QVBoxLayout \

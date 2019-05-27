@@ -25,7 +25,7 @@ void GameObject::Render(QMatrix4x4* world)
     world->rotate(rotation.normalized());
     if (shader != nullptr)
     {
-        GameWindow::instance->BindCurrentShader(shader);
+        GameWindow::instance->BindCurrentShader(this);
         GameWindow::instance->setTransforms();
     }
 }

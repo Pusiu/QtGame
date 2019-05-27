@@ -14,7 +14,7 @@ public:
     QQuaternion rotation;
     QVector3D scale;
 
-    Shader* shader;
+    Shader* shader=nullptr;
     QOpenGLTexture* texture=nullptr;
 
 

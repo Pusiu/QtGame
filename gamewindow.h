@@ -34,10 +34,11 @@ public:
     Player* player;
     QVector3D cameraDirection;
 
+    bool lockCursor = true;
     unsigned long m_timer = 0;
     QElapsedTimer timerSinceStart;
 
-    void BindCurrentShader(Shader* shader);
+    void BindCurrentShader(GameObject* go);
 
 
     void initializeGL() override;

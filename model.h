@@ -14,7 +14,6 @@ class Model
 {
 public:
     /*  Model Data */
-    QVector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     QVector<Mesh*> meshes;
     QString directory;
     bool gammaCorrection;
@@ -44,12 +43,6 @@ private:
     void processNode(aiNode *node, const aiScene *scene);
 
     void processMesh(aiMesh *mesh, const aiScene *scene);
-
-    // checks all material textures of a given type and loads the textures if they're not loaded yet.
-    // the required info is returned as a Texture struct.
-    QVector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
-
-    unsigned int TextureFromFile(const char *path, QString directory, bool gamma);
 };
 
 

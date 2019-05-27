@@ -119,6 +119,7 @@ DESTDIR = builds
 OBJECTS_DIR = builds/objects
 
 DISTFILES += \
+    builds/resources/shaders/skybox.frag \
     shaders/simple.frag \
     shaders/simple.vert \
     builds/resources/shaders/simple.frag \
