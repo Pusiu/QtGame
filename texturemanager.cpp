@@ -11,14 +11,18 @@ void TextureManager::Init()
 {
     textures["paratrooper"]=new QOpenGLTexture(QImage("resources/textures/paratrooper.png"));
     textures["skybox"]=new QOpenGLTexture(QImage("resources/textures/skybox_texture.jpg"));
-    textures["terrain"]=new QOpenGLTexture(QImage("resources/textures/TerrainTexture.png"));
+    textures["terrain"]=new QOpenGLTexture(QImage("resources/textures/TerrainMerged.png"));
+    textures["trees"]=new QOpenGLTexture(QImage("resources/textures/tree.png"));
+    textures["fences"]=new QOpenGLTexture(QImage("resources/textures/FencesMerged.png"));
+    textures["hedges"]=new QOpenGLTexture(QImage("resources/textures/hedges.png"));
+    textures["houses"]=new QOpenGLTexture(QImage("resources/textures/house_diffuse.tga"));
 }
 
 QOpenGLTexture* TextureManager::GetTexture(QString name)
 {
     QOpenGLTexture* t = textures[name];
     if (t == nullptr)
-        Debug::Log("[TextureManager]Error! Can't find texture (texture not added at initialization?)");
+        qDebug("[TextureManager]Error! Can't find texture (texture not added at initialization?)");
 
     return t;
 }

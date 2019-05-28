@@ -95,7 +95,6 @@ void GameWindow::setZRotation(float angle)
     }
 }
 
-GameObject* skybox;
 void GameWindow::initializeGL()
 {
     initializeOpenGLFunctions();
@@ -106,13 +105,13 @@ void GameWindow::initializeGL()
 
     // Create Shader (Do not release until VAO is created)
 
-    shaders.push_back(new Shader("simple", "resources/shaders/simple.vert", "resources/shaders/simple.frag"));
-    shaders.push_back(new Shader("skinned", "resources/shaders/skinned2.vert", "resources/shaders/simple.frag"));
-    shaders.push_back(new Shader("skybox", "resources/shaders/simple.vert", "resources/shaders/skybox.frag"));
+    shaders.insert("simple", new Shader("simple", "resources/shaders/simple.vert", "resources/shaders/simple.frag"));
+    shaders.insert("skinned", new Shader("skinned", "resources/shaders/skinned2.vert", "resources/shaders/simple.frag"));
+    shaders.insert("skybox", new Shader("skybox", "resources/shaders/simple.vert", "resources/shaders/skybox.frag"));
     TextureManager::Init();
 
 
-    m_program=shaders[0]->program;
+    m_program=shaders["simple"]->program;
     /*m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "resources/shaders/simple.vert");
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "resources/shaders/simple.frag");
@@ -151,26 +150,51 @@ void GameWindow::initializeGL()
 
     Cube* terrain=new Cube(new Model("resources/meshes/terrain.fbx"));
     terrain->texture=TextureManager::GetTexture("terrain");
-    terrain->shader=shaders[0];
+    terrain->shader=shaders["simple"];
     terrain->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
     terrain->scale = QVector3D(5,5,5);
     gameObjects.push_back(terrain);
 
+    Cube* fences=new Cube(new Model("resources/meshes/fences.fbx"));
+    fences->texture=TextureManager::GetTexture("fences");
+    fences->shader=shaders["simple"];
+    fences->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    fences->scale = QVector3D(5,5,5);
+    gameObjects.push_back(fences);
+
+    Cube* hedges=new Cube(new Model("resources/meshes/hedges.fbx"));
+    hedges->texture=TextureManager::GetTexture("hedges");
+    hedges->shader=shaders["simple"];
+    hedges->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    hedges->scale = QVector3D(5,5,5);
+    gameObjects.push_back(hedges);
+
+    Cube* trees=new Cube(new Model("resources/meshes/trees.fbx"));
+    trees->texture=TextureManager::GetTexture("trees");
+    trees->shader=shaders["simple"];
+    trees->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    trees->scale = QVector3D(5,5,5);
+    gameObjects.push_back(trees);
+
+    Cube* houses=new Cube(new Model("resources/meshes/houses.fbx"));
+    houses->texture=TextureManager::GetTexture("houses");
+    houses->shader=shaders["simple"];
+    houses->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    houses->scale = QVector3D(5,5,5);
+    gameObjects.push_back(houses);
+
     player = new Player("resources/meshes/paratrooper.fbx");
     player->texture=TextureManager::GetTexture("paratrooper");
     player->scale = QVector3D(0.0005,0.0005,0.0005);
-    player->position = QVector3D(29, 0, 33);
-    player->shader = shaders[1];
+    player->position = QVector3D(35, 0, 67);
+    player->shader = shaders["skinned"];
     gameObjects.push_front(player);
 
     skybox = new Cube(new Model("resources/meshes/skybox.fbx"));
     skybox->scale = QVector3D(100,100,100);
     skybox->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
-    skybox->shader = shaders[2];
+    skybox->shader = shaders["skybox"];
     skybox->texture=TextureManager::GetTexture("skybox");
-
-    //gameObjects.push_front(skybox);
-
 
     AudioSource::Init();
 
@@ -200,7 +224,7 @@ void GameWindow::BindCurrentShader(GameObject* go)
 
     m_program->setUniformValue(m_lightLoc.position, QVector3D(0.0f, 0.0f, 15.0f));
     m_program->setUniformValue(m_lightLoc.ambient, QVector3D(0.4f, 0.4f, 0.4f));
-    m_program->setUniformValue(m_lightLoc.diffuse, QVector3D(0.9f, 0.9f, 0.9f));
+    m_program->setUniformValue(m_lightLoc.diffuse, QVector3D(0.2f, 0.2f, 0.2f));
     m_program->setUniformValue(m_modelColorLoc,QVector3D(1.0f, 1.0, 1.0));
 
     if (go->texture != nullptr)
@@ -212,9 +236,31 @@ void GameWindow::BindCurrentShader(GameObject* go)
         m_program->setUniformValue(m_hasTextureLoc, 0);
 }
 
+void GameWindow::Render()
+{
+    QStack<QMatrix4x4> worldMatrixStack;
 
-QVector3D playerDirection;
-void GameWindow::paintGL()
+    //m_program->bind();
+
+    m_world.setToIdentity();
+
+    //m_camera.lookAt(QVector3D(0,0,0), QVector3D(-5,0,0), QVector3D(0,1,0));
+    //float phi = atan2(cameraDirection.z(), cameraDirection.x());
+    worldMatrixStack.push(m_world);
+    skybox->Render(&m_world);
+    m_world=worldMatrixStack.pop();
+
+    for (int i=0; i < gameObjects.size(); i++)
+    {
+        worldMatrixStack.push(m_world);
+        gameObjects[i]->Render(&m_world);
+
+        m_world = worldMatrixStack.pop();
+        m_program->release();
+    }
+}
+
+void GameWindow::Update()
 {
     update();
     for (int i=0; i < gameObjects.size(); i++)
@@ -222,34 +268,8 @@ void GameWindow::paintGL()
         gameObjects[i]->Update();
     }
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-
     if (lockCursor)
         QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
-
-    QStack<QMatrix4x4> worldMatrixStack;
-
-    //m_program->bind();
-
-
-
-    m_camera.setToIdentity();
-    m_world.setToIdentity();
-
-
-    QVector3D cameraOffset(QVector3D(0,2,0));
-    m_camera.lookAt(player->position - m_camDistance * cameraDirection + cameraOffset,
-                    player->position + cameraOffset,
-                    QVector3D(0, 1, 0)
-                    );
-
-    //m_camera.lookAt(QVector3D(0,0,0), QVector3D(-5,0,0), QVector3D(0,1,0));
-
-
-    //float phi = atan2(cameraDirection.z(), cameraDirection.x());
-
 
     if(m_keyState[Qt::Key_Z]) m_camDistance += 0.05f;
     if(m_keyState[Qt::Key_X]) m_camDistance -= 0.05f;
@@ -322,26 +342,27 @@ void GameWindow::paintGL()
     player->rotation = player->rotation.fromEulerAngles(0,-atan2(playerDirection.z(), playerDirection.x()) * 180.0f / M_PI,0);
 
     skybox->position = player->position + QVector3D(0,15,0);
-    worldMatrixStack.push(m_world);
-    skybox->Render(&m_world);
-    m_world=worldMatrixStack.pop();
-
-    for (int i=0; i < gameObjects.size(); i++)
-    {
-        worldMatrixStack.push(m_world);
-        gameObjects[i]->Render(&m_world);
-
-        m_world = worldMatrixStack.pop();
-        m_program->release();
-    }
-
 
     m_timer++;
 
+}
 
 
+void GameWindow::paintGL()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
+    m_camera.setToIdentity();
+    QVector3D cameraOffset(QVector3D(0,2,0));
+    m_camera.lookAt(player->position - m_camDistance * cameraDirection + cameraOffset,
+                    player->position + cameraOffset,
+                    QVector3D(0, 1, 0)
+                    );
+    Render();
 
+    Update();
 }
 
 void GameWindow::setTransforms(void)

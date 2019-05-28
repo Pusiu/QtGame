@@ -3,3 +3,4 @@
 *.pdb
 *.autosave
 */objects/*.obj
+/raw/*

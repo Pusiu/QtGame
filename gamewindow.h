@@ -29,9 +29,12 @@ public:
 
 
     QVector<GameObject*> gameObjects;
-    QVector<Shader*> shaders;
+    QMap<QString,Shader*> shaders;
 
     Player* player;
+    QVector3D playerDirection;
+
+    GameObject* skybox;
     QVector3D cameraDirection;
 
     bool lockCursor = true;
@@ -53,6 +56,9 @@ public:
     void setTransforms(void);
     void qNormalizeAngle(float &angle);
 
+    void GenerateDepthMap();
+    void Update();
+    void Render();
 public slots:
     void setXRotation(float angle);
     void setYRotation(float angle);

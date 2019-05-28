@@ -22,12 +22,16 @@ void main() {
     highp vec3 colorDif = modelColor * light.diffuse * cosNL;
     highp vec3 colorFull = clamp(colorAmb + colorDif, 0.0, 1.0);
     //gl_FragColor = vec4(colorFull, 1.0);
-    highp vec3 tex = texture2D(texture, fragUV).xyz;
+    highp vec4 tex = texture2D(texture, fragUV).rgba;
+
+    if(tex.a < 0.1)
+        discard;
+
     if(hasTexture == 1)
-    gl_FragColor = vec4(colorFull * tex, 1.0);
+        gl_FragColor = vec4(colorFull * tex, 1.0);
     else
     {
-    gl_FragColor = vec4(colorFull, 1.0);
+        gl_FragColor = vec4(colorFull, 1.0);
     }
 
 }
