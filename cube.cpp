@@ -5,6 +5,16 @@ Cube::Cube(Model* model)
     this->model =model;
 }
 
+Cube::Cube(Cube &ref)
+{
+    this->model=new Model(*ref.model);
+    this->position=ref.position;
+    this->rotation=ref.rotation;
+    this->scale=ref.scale;
+    this->shader=ref.shader;
+    this->texture=ref.texture;
+}
+
 void Cube::Update()
 {
 

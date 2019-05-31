@@ -11,6 +11,12 @@ class AnimatedModel
 {
 public:
 
+    //static QVector<const aiScene*> scenes;
+
+    Assimp::Importer* importer;
+    const aiScene* scene;
+
+
     Model* model;
     QMatrix4x4 	globalInverseTransform;
     QVector<Bone*>		bones;

@@ -11,13 +11,17 @@ AnimatedModel::AnimatedModel(QString path) : indices(QOpenGLBuffer::IndexBuffer)
 AnimatedModel::~AnimatedModel()
 {
     delete model;
+    importer->FreeScene();
+    delete importer;
 }
-Assimp::Importer importer;
+
 
 void AnimatedModel::LoadAnimatedModel(QString path)
 {
 
-    const aiScene* scene =  importer.ReadFile(path.toStdString().data(),
+    importer = new Assimp::Importer();
+
+    scene =  importer->ReadFile(path.toStdString().data(),
                 aiProcess_Triangulate |
                 aiProcess_GenSmoothNormals |
                 aiProcess_FlipUVs |
@@ -300,18 +304,25 @@ void AnimatedModel::Draw(Shader* shader) {
 
 void AnimatedModel::Update() {
 
-    SetBoneTransforms((float)(((double)GameWindow::instance->timerSinceStart.elapsed() - (double)timer) / 1000.0));
+    float time = (float)(((double)GameWindow::instance->timerSinceStart.elapsed() - (double)timer) / 1000.0);
     if (currentAnimationEndTime != 0)
     {
         if (GameWindow::instance->timerSinceStart.elapsed() >= currentAnimationEndTime)
+        {
             currentAnimationEnded=true;
+            time = (float)((currentAnimationEndTime - (double)timer) / 1000.0 -0.01f);
+        }
     }
+    SetBoneTransforms(time);
 }
 
 aiNodeAnim* AnimatedModel::FindNodeAnim(aiAnimation* pAnimation, QString NodeName)
 {
+
     for (int i = 0 ; i < pAnimation->mNumChannels; i++) {
         aiNodeAnim* pNodeAnim = (pAnimation->mChannels[i]);
+        if (pNodeAnim == nullptr)
+            continue;
 
         const char* c1 = pNodeAnim->mNodeName.C_Str();
         string c3 = NodeName.toStdString();

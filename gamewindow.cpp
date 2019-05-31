@@ -9,7 +9,7 @@
 #include <qstack.h>
 #include "cube.h"
 #include "shader.h"
-#include "debug.h"
+#include "particleeffect.h"
 #include <stdio.h>
 
 using namespace std;
@@ -42,7 +42,7 @@ GameWindow::~GameWindow()
 
 QSize GameWindow::sizeHint() const
 {
-    return QSize(1000, 800);
+    return QSize(1600, 900);
 }
 
 void GameWindow::cleanup()
@@ -112,41 +112,6 @@ void GameWindow::initializeGL()
 
 
     m_program=shaders["simple"]->program;
-    /*m_program = new QOpenGLShaderProgram();
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "resources/shaders/simple.vert");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "resources/shaders/simple.frag");
-
-    m_program->bindAttributeLocation("vertex", 0);
-    m_program->bindAttributeLocation("normal", 1);
-    m_program->link();*/
-
-
-
-
-   /* m_models.insert("Cube", new Model());
-    m_models["Cube"]->meshes.push_back(new Mesh());
-    m_models["Cube"]->meshes[0]->generateCube(1,1,1);
-    m_models.insert("Test", new Model());
-    m_models["Test"]->meshes.push_back(new Mesh());
-    m_models["Test"]->meshes[0]->generateMeshFromObjFile("resources/meshes/bunny.obj");*/
-
-
-  /*  Model* testmodel=new Model("resources/meshes/test.fbx");
-    for (int i=0; i < 36; i++)
-    {
-        Cube* c = new Cube(testmodel);
-        c->shader = shaders[0];
-        //c->model->meshes.push_front(new Mesh());
-        //c->model->meshes[0]->generateCube(1,1,1);
-
-        c->position = QVector3D(sin(i)*5,0,cos(i)*5);
-        gameObjects.push_front(c);
-    }*/
-
-   /* Cube* trooper = new Cube(new Model("resources/meshes/paratrooper.fbx"));
-    trooper->scale = QVector3D(0.05,0.05,0.05);
-    trooper->shader = shaders[0];
-    gameObjects.push_front(trooper);*/
 
     Cube* terrain=new Cube(new Model("resources/meshes/terrain.fbx"));
     terrain->texture=TextureManager::GetTexture("terrain");
@@ -183,6 +148,13 @@ void GameWindow::initializeGL()
     houses->scale = QVector3D(5,5,5);
     gameObjects.push_back(houses);
 
+    Cube* parachute=new Cube(new Model("resources/meshes/parachute.fbx"));
+    parachute->texture=TextureManager::GetTexture("parachute");
+    parachute->shader=shaders["simple"];
+    parachute->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    parachute->scale = QVector3D(5,5,5);
+    gameObjects.push_back(parachute);
+
     player = new Player("resources/meshes/paratrooper.fbx");
     player->texture=TextureManager::GetTexture("paratrooper");
     player->scale = QVector3D(0.0005,0.0005,0.0005);
@@ -191,16 +163,66 @@ void GameWindow::initializeGL()
     gameObjects.push_front(player);
 
     skybox = new Cube(new Model("resources/meshes/skybox.fbx"));
-    skybox->scale = QVector3D(100,100,100);
+    skybox->scale = QVector3D(1000,1000,1000);
     skybox->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
     skybox->shader = shaders["skybox"];
     skybox->texture=TextureManager::GetTexture("skybox");
 
+    //main plane
+        Cube* skytrain = new Cube(new Model("resources/meshes/plane.fbx"));
+        skytrain->scale = QVector3D(10,10,10);
+        skytrain->position = QVector3D(0,90,-600);
+        skytrain->rotation = QQuaternion::fromEulerAngles(QVector3D(90,-90,0));
+        skytrain->shader = shaders["simple"];
+        skytrain->texture=TextureManager::GetTexture("skytrain");
+        gameObjects.push_front(skytrain);
+        skytrains.push_back(skytrain);
+
+        skytrain=new Cube(*skytrain);
+        skytrain->position+=QVector3D(50,0,50);
+        gameObjects.push_front(skytrain);
+        skytrains.push_back(skytrain);
+
+        skytrain=new Cube(*skytrain);
+        skytrain->position+=QVector3D(-100,0,30);
+        gameObjects.push_front(skytrain);
+        skytrains.push_back(skytrain);
+
+
+    //left side planes
+    for (int i = 0; i < 5; ++i) {
+        skytrain=new Cube(*skytrain);
+        skytrain->position = QVector3D(200+(rand() % 200),90+(rand() % 30),1000+(rand() % 400));
+        gameObjects.push_front(skytrain);
+        skytrains.push_back(skytrain);
+    }
+
+    for (int i = 0; i < 5; ++i) {
+        skytrain=new Cube(*skytrain);
+        skytrain->position = QVector3D(-200-(rand() % 200),90+(rand() % 30),1000+(rand() % 400));
+        gameObjects.push_front(skytrain);
+        skytrains.push_back(skytrain);
+    }
+
+
+    flak = new Flak("resources/meshes/flak.fbx");
+    flak->position = QVector3D(-21,0,16);
+    flak->scale = QVector3D(0.02,0.02,0.02);
+    flak->rotation = QQuaternion::fromEulerAngles(QVector3D(0,0,0));
+    flak->shader = shaders["skinned"];
+    flak->texture=TextureManager::GetTexture("flak");
+    gameObjects.push_front(flak);
+
+    Enemy* enemy = new Enemy("resources/meshes/german.fbx");
+    enemy->position=flak->position+QVector3D(0,0,5);
+    enemy->rotation=QQuaternion::fromEulerAngles(QVector3D(0,90,0));
+    enemy->shader=shaders["skinned"];
+    enemy->texture=TextureManager::GetTexture("german");
+    enemy->scale = QVector3D(0.0005,0.0005,0.0005);
+    enemies.push_back(enemy);
+    gameObjects.push_back(enemy);
+
     AudioSource::Init();
-
-
-    //gameObjects.insert("Paratrooper", new Model("resources/meshes/paratrooper.fbx"));
-    //m_models["Paratrooper"]->LoadModel("resources/meshes/test.fbx");
 
 
     // Release (unbind) all
@@ -262,7 +284,20 @@ void GameWindow::Render()
 
 void GameWindow::Update()
 {
+    ParticleEffect::Update();
     update();
+    for (int i=0; i < skytrains.count();i++)
+    {
+        skytrains[i]->position -= QVector3D(0.0f,0,0.5f);
+        if (skytrains[i]->position.z() < -800)
+        {
+            skytrains[i]->position=QVector3D(skytrains[i]->position.x(),skytrains[i]->position.y(),300);
+            if (i==0)
+                AudioSource::PlaySoundOnce("skytrain", 0.1f);
+        }
+    }
+
+
     for (int i=0; i < gameObjects.size(); i++)
     {
         gameObjects[i]->Update();
@@ -276,42 +311,46 @@ void GameWindow::Update()
 
     player->desiredAnimationState = Player::Idle;
 
-    if (m_keyState[Qt::Key_W] || m_keyState[Qt::Key_S] || m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])
-        playerDirection=QVector3D(0,0,0);
+    if (player->canMove)
+    {
+        if (m_keyState[Qt::Key_W] || m_keyState[Qt::Key_S] || m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])
+            playerDirection=QVector3D(0,0,0);
 
-    float speedMultiplier=1.0f;
-    if ((m_keyState[Qt::Key_W] && (m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])) || (m_keyState[Qt::Key_S] && (m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])))
-            speedMultiplier=0.75f;
+        float speedMultiplier=1.0f;
+        if ((m_keyState[Qt::Key_W] && (m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])) || (m_keyState[Qt::Key_S] && (m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])))
+                speedMultiplier=0.75f;
 
-    if (m_keyState[Qt::Key_W])
-    {
-        player->position.setX(player->position.x() + cameraDirection.x() * player->speed * speedMultiplier);
-        player->position.setZ(player->position.z() + cameraDirection.z() * player->speed * speedMultiplier);
-        playerDirection+=QVector3D(cameraDirection.x(),0,cameraDirection.z());
-        player->desiredAnimationState = Player::Running;
-    }
-    if (m_keyState[Qt::Key_S])
-    {
-        player->position.setX(player->position.x() - cameraDirection.x() * player->speed * speedMultiplier);
-        player->position.setZ(player->position.z() - cameraDirection.z() * player->speed * speedMultiplier);
-        playerDirection+=QVector3D(-cameraDirection.x(),0,-cameraDirection.z());
-        player->desiredAnimationState = Player::Running;
+        if (m_keyState[Qt::Key_W])
+        {
+            player->position.setX(player->position.x() + cameraDirection.x() * player->speed * speedMultiplier);
+            player->position.setZ(player->position.z() + cameraDirection.z() * player->speed * speedMultiplier);
+            playerDirection+=QVector3D(cameraDirection.x(),0,cameraDirection.z());
+            player->desiredAnimationState = Player::Running;
+        }
+        if (m_keyState[Qt::Key_S])
+        {
+            player->position.setX(player->position.x() - cameraDirection.x() * player->speed * speedMultiplier);
+            player->position.setZ(player->position.z() - cameraDirection.z() * player->speed * speedMultiplier);
+            playerDirection+=QVector3D(-cameraDirection.x(),0,-cameraDirection.z());
+            player->desiredAnimationState = Player::Running;
+        }
+
+        if (m_keyState[Qt::Key_A])
+        {
+            player->position.setX(player->position.x() + cameraDirection.z() * player->speed * speedMultiplier);
+            player->position.setZ(player->position.z() - cameraDirection.x() * player->speed * speedMultiplier);
+            playerDirection+=QVector3D(cameraDirection.z(),0,-cameraDirection.x());
+            player->desiredAnimationState = Player::Running;
+        }
+        if (m_keyState[Qt::Key_D])
+        {
+            player->position.setX(player->position.x() - cameraDirection.z() * player->speed * speedMultiplier);
+            player->position.setZ(player->position.z() + cameraDirection.x() * player->speed * speedMultiplier);
+            playerDirection+=QVector3D(-cameraDirection.z(),0,cameraDirection.x());
+            player->desiredAnimationState = Player::Running;
+        }
     }
 
-    if (m_keyState[Qt::Key_A])
-    {
-        player->position.setX(player->position.x() + cameraDirection.z() * player->speed * speedMultiplier);
-        player->position.setZ(player->position.z() - cameraDirection.x() * player->speed * speedMultiplier);
-        playerDirection+=QVector3D(cameraDirection.z(),0,-cameraDirection.x());
-        player->desiredAnimationState = Player::Running;
-    }
-    if (m_keyState[Qt::Key_D])
-    {
-        player->position.setX(player->position.x() - cameraDirection.z() * player->speed * speedMultiplier);
-        player->position.setZ(player->position.z() + cameraDirection.x() * player->speed * speedMultiplier);
-        playerDirection+=QVector3D(-cameraDirection.z(),0,cameraDirection.x());
-        player->desiredAnimationState = Player::Running;
-    }
     if (m_keyState[Qt::Key_K])
     {
         char c[1024];
@@ -328,7 +367,17 @@ void GameWindow::Update()
     if (mouseButtonState[1])
     {
         player->desiredAnimationState = Player::Aiming;
+        //playerDirection=QVector3D(cameraDirection.x(),0,cameraDirection.z());
         playerDirection=QVector3D(cameraDirection.x(),0,cameraDirection.z());
+        QVector3D right = QVector3D::crossProduct(playerDirection.normalized(), QVector3D(0,1,0));
+        cameraOffset = QVector3D(0, 2, 0) + (right * 0.7f);
+        m_camDistance=2.0f;
+        player->canMove=false;
+    }
+    else {
+        cameraOffset = QVector3D(0, 2, 0);
+        m_camDistance=3.5f;
+        player->canMove=true;
     }
 
     if (player->desiredAnimationState == Player::Aiming)
@@ -355,7 +404,6 @@ void GameWindow::paintGL()
     glEnable(GL_CULL_FACE);
 
     m_camera.setToIdentity();
-    QVector3D cameraOffset(QVector3D(0,2,0));
     m_camera.lookAt(player->position - m_camDistance * cameraDirection + cameraOffset,
                     player->position + cameraOffset,
                     QVector3D(0, 1, 0)

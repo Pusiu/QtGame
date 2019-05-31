@@ -8,8 +8,6 @@
 
 using namespace std;
 
-unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
-
 class Model
 {
 public:
@@ -26,6 +24,7 @@ public:
 
 
     Model();
+    Model(Model& ref);
     ~Model();
     /*  Functions   */
     // constructor, expects a filepath to a 3D model.

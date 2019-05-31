@@ -11,6 +11,8 @@
 #include "audiosource.h"
 #include "gameobject.h"
 #include "player.h"
+#include "flak.h"
+#include "enemy.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -33,8 +35,13 @@ public:
 
     Player* player;
     QVector3D playerDirection;
+    QVector3D cameraOffset = QVector3D(0,2,0);
+
 
     GameObject* skybox;
+    QVector<GameObject*> skytrains;
+    QVector<Enemy*> enemies;
+    Flak* flak;
     QVector3D cameraDirection;
 
     bool lockCursor = true;

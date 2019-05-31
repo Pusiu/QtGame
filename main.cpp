@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // creates object for MainWindow class
+    qputenv("QT_OPENGL", "desktop");
     MainWindow mainWindow;
     mainWindow.resize(mainWindow.sizeHint()); // size of the main window (defined in GLWidget)
     mainWindow.show(); // shows main window

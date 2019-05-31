@@ -1,5 +1,7 @@
 SOURCES += \
     audiosource.cpp \
+    enemy.cpp \
+    flak.cpp \
     gameobject.cpp \
     AnimationSystem/animatedmodel.cpp \
     gamewindow.cpp \
@@ -7,6 +9,7 @@ SOURCES += \
     mainwindow.cpp \
     mesh.cpp \
     model.cpp \
+    particleeffect.cpp \
     player.cpp \
     texturemanager.cpp \
     window.cpp \
@@ -17,6 +20,8 @@ SOURCES += \
 
 HEADERS += \
     audiosource.h \
+    enemy.h \
+    flak.h \
     gameobject.h \
     AnimationSystem/animatedmodel.h \
     lib/assimp/include/assimp/Compiler/poppack1.h \
@@ -98,6 +103,7 @@ HEADERS += \
     mainwindow.h \
     mesh.h \
     model.h \
+    particleeffect.h \
     player.h \
     texturemanager.h \
     window.h \

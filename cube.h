@@ -8,6 +8,7 @@ class Cube : public GameObject
 {
 public:
     Cube(Model* model);
+    Cube(Cube& ref);
     Model* model;
 
     void Update() override;

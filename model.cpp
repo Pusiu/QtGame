@@ -7,6 +7,14 @@ Model::Model()
 
 }
 
+Model::Model(Model &ref)
+{
+    for (int i=0; i < ref.meshes.size(); i++)
+    {
+        meshes.push_back(new Mesh(ref.meshes[i]->assimpMesh, ref.meshes[i]->name, ref.meshes[i]->vertices, ref.meshes[i]->indices, ref.meshes[i]->textures));
+    }
+}
+
 Model::~Model()
 {
     for(int i = 0; i < meshes.size(); i++)

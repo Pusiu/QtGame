@@ -21,6 +21,7 @@ public:
     float speed;
 
     bool isMoving=false;
+    bool canMove=true;
 
     void PlayAnimation(QString animName, bool waitForEnd=true);
     void Shoot();

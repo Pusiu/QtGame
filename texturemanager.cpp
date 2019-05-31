@@ -16,6 +16,11 @@ void TextureManager::Init()
     textures["fences"]=new QOpenGLTexture(QImage("resources/textures/FencesMerged.png"));
     textures["hedges"]=new QOpenGLTexture(QImage("resources/textures/hedges.png"));
     textures["houses"]=new QOpenGLTexture(QImage("resources/textures/house_diffuse.tga"));
+    textures["skytrain"]=new QOpenGLTexture(QImage("resources/textures/skytrain.png"));
+    textures["parachute"]=new QOpenGLTexture(QImage("resources/textures/parachute.png"));
+    textures["flak"]=new QOpenGLTexture(QImage("resources/textures/flak.png"));
+    textures["explosion"]=new QOpenGLTexture(QImage("resources/textures/explosion.png"));
+    textures["german"]=new QOpenGLTexture(QImage("resources/textures/german.png"));
 }
 
 QOpenGLTexture* TextureManager::GetTexture(QString name)
