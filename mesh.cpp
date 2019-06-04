@@ -84,7 +84,7 @@ void Mesh::render(GameWindow* window)
 {
     m_vao_binder->rebind();
     window->glDrawArrays(m_primitive, 0, vertexCount());
-
+    m_vao_binder->release();
     //window->glDrawElements(m_primitive, indices.size(), GL_UNSIGNED_INT, 0);
 }
 

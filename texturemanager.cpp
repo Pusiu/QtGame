@@ -21,6 +21,8 @@ void TextureManager::Init()
     textures["flak"]=new QOpenGLTexture(QImage("resources/textures/flak.png"));
     textures["explosion"]=new QOpenGLTexture(QImage("resources/textures/explosion.png"));
     textures["german"]=new QOpenGLTexture(QImage("resources/textures/german.png"));
+    textures["crate"]=new QOpenGLTexture(QImage("resources/textures/crate.png"));
+    textures["shell"]=new QOpenGLTexture(QImage("resources/textures/shell.png"));
 }
 
 QOpenGLTexture* TextureManager::GetTexture(QString name)

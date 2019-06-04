@@ -10,6 +10,7 @@
 #include "cube.h"
 #include "shader.h"
 #include "particleeffect.h"
+#include "spheretrigger.h"
 #include <stdio.h>
 
 using namespace std;
@@ -29,6 +30,7 @@ GameWindow::GameWindow(QWidget *parent) : QOpenGLWidget(parent), m_program(nullp
     c.setShape(Qt::CursorShape::BlankCursor);
     setCursor(c);*/
     instance=this;
+    setAutoFillBackground(false);
     timerSinceStart.start();
 }
 
@@ -109,6 +111,7 @@ void GameWindow::initializeGL()
     shaders.insert("skinned", new Shader("skinned", "resources/shaders/skinned2.vert", "resources/shaders/simple.frag"));
     shaders.insert("skybox", new Shader("skybox", "resources/shaders/simple.vert", "resources/shaders/skybox.frag"));
     TextureManager::Init();
+    Waypoint::SetupWaypoints();
 
 
     m_program=shaders["simple"]->program;
@@ -154,6 +157,20 @@ void GameWindow::initializeGL()
     parachute->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
     parachute->scale = QVector3D(5,5,5);
     gameObjects.push_back(parachute);
+
+    Cube* crates=new Cube(new Model("resources/meshes/crates.fbx"));
+    crates->texture=TextureManager::GetTexture("crate");
+    crates->shader=shaders["simple"];
+    crates->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    crates->scale = QVector3D(5,5,5);
+    gameObjects.push_back(crates);
+
+    Cube* shells=new Cube(new Model("resources/meshes/shells.fbx"));
+    shells->texture=TextureManager::GetTexture("shell");
+    shells->shader=shaders["simple"];
+    shells->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    shells->scale = QVector3D(5,5,5);
+    gameObjects.push_back(shells);
 
     player = new Player("resources/meshes/paratrooper.fbx");
     player->texture=TextureManager::GetTexture("paratrooper");
@@ -206,7 +223,7 @@ void GameWindow::initializeGL()
 
 
     flak = new Flak("resources/meshes/flak.fbx");
-    flak->position = QVector3D(-21,0,16);
+    flak->position = QVector3D(-16,0,13);
     flak->scale = QVector3D(0.02,0.02,0.02);
     flak->rotation = QQuaternion::fromEulerAngles(QVector3D(0,0,0));
     flak->shader = shaders["skinned"];
@@ -214,13 +231,29 @@ void GameWindow::initializeGL()
     gameObjects.push_front(flak);
 
     Enemy* enemy = new Enemy("resources/meshes/german.fbx");
-    enemy->position=flak->position+QVector3D(0,0,5);
+    enemy->position=flak->position+QVector3D(2,0,5);
     enemy->rotation=QQuaternion::fromEulerAngles(QVector3D(0,90,0));
     enemy->shader=shaders["skinned"];
     enemy->texture=TextureManager::GetTexture("german");
     enemy->scale = QVector3D(0.0005,0.0005,0.0005);
     enemies.push_back(enemy);
     gameObjects.push_back(enemy);
+
+    enemy = new Enemy(*enemy);
+    enemy->position=flak->position+QVector3D(-0.75f,0,1.4f);
+    enemy->rotation=QQuaternion::fromEulerAngles(QVector3D(0,90,0));
+    enemy->PlayAnimation("OperateFlak",false);
+    enemies.push_back(enemy);
+    gameObjects.push_back(enemy);
+
+    enemy = new Enemy(*enemy);
+    enemy->position=flak->position+QVector3D(-4,0,-5);
+    enemy->rotation=QQuaternion::fromEulerAngles(QVector3D(0,-90,0));
+    enemies.push_back(enemy);
+    gameObjects.push_back(enemy);
+
+    SphereTrigger* farmTrigger = new SphereTrigger("farm", QVector3D(-10,0,46), 15);
+    gameObjects.push_back(farmTrigger);
 
     AudioSource::Init();
 
@@ -386,7 +419,10 @@ void GameWindow::Update()
             player->Shoot();
     }
     if (m_keyState[Qt::Key_R])
+    {
         player->Reload();
+        player->currentAmmo=player->maxAmmo;
+    }
 
     player->rotation = player->rotation.fromEulerAngles(0,-atan2(playerDirection.z(), playerDirection.x()) * 180.0f / M_PI,0);
 
@@ -399,6 +435,7 @@ void GameWindow::Update()
 
 void GameWindow::paintGL()
 {
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -409,8 +446,31 @@ void GameWindow::paintGL()
                     QVector3D(0, 1, 0)
                     );
     Render();
-
     Update();
+
+    m_program->release();
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+
+    QPainter painter(this);
+
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+
+
+    painter.setPen(Qt::white);
+
+    //painter.setFont(QFont("Arial", 25));
+   /* QRect r(width()*0.8f, height() * 0.7f, width() * 0.2f, height()*0.1f);
+    painter.drawText(r, Qt::AlignCenter, QString::number(player->currentAmmo));
+
+
+    if (player->currentAmmo == 0)
+    {
+        r=QRect(width()*0.25f, height() * 0.05f, width() * 0.5f, height()*0.1f);
+        painter.drawText(r, Qt::AlignCenter, "Przeladuj! (R)");
+    }*/
+    painter.end();
 }
 
 void GameWindow::setTransforms(void)

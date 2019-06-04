@@ -24,6 +24,9 @@ void Cube::Render(QMatrix4x4* world)
 {
     GameObject::Render(world);
     model->Draw();
+    shader->program->release();
+    if (texture != nullptr)
+        texture->release();
 }
 
 Cube::~Cube()

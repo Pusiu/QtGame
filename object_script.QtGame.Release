@@ -11,7 +11,10 @@ INPUT(
 ./builds\objects\model.o
 ./builds\objects\particleeffect.o
 ./builds\objects\player.o
+./builds\objects\spheretrigger.o
 ./builds\objects\texturemanager.o
+./builds\objects\trigger.o
+./builds\objects\waypoint.o
 ./builds\objects\window.o
 ./builds\objects\debug.o
 ./builds\objects\cube.o

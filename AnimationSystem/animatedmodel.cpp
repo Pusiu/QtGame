@@ -216,15 +216,20 @@ void AnimatedModel::LoadAnimatedModel(QString path)
 
 void AnimatedModel::SetCurrentAnimation(QString animName, bool loop)
 {
-
+    animation=nullptr;
+    animName="Armature|"+animName;
     for (int i=0; i < allAnimations.length(); i++)
     {
         QString n(allAnimations[i]->mName.data);
-        if (n.contains(animName, Qt::CaseSensitivity::CaseInsensitive))
+        if (n == animName) //if (n.contains(animName, Qt::CaseSensitivity::CaseInsensitive))
         {
             animation=allAnimations[i];
             break;
         }
+    }
+    if (animation == nullptr)
+    {
+        qDebug("Can't find animation!");
     }
     timer = GameWindow::instance->timerSinceStart.elapsed();
     currentAnimationEnded=true;

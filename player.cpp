@@ -21,6 +21,10 @@ void Player::Shoot()
 {
     if (GameWindow::instance->timerSinceStart.elapsed() - lastShotTime >= 300)
     {
+        if (currentAmmo == 0)
+            return;
+
+        currentAmmo--;
         AudioSource::PlaySoundOnce("Carbine");
         QVector3D right = rotation*QVector3D(0,0,1);
         QVector3D dir = QVector3D::crossProduct(right, QVector3D(0,1,0));
@@ -33,10 +37,13 @@ void Player::Shoot()
         for (int i=0; i < GameWindow::instance->enemies.size(); i++)
         {
             Enemy* en = GameWindow::instance->enemies[i];
+            if (!en->isAlive)
+                continue;
+
             QVector3D dir = (en->position-position).normalized();
             float dot = QVector3D::dotProduct(GameWindow::instance->playerDirection.normalized(), dir);
             //qDebug(QString::number(dot).toStdString().data());
-            if (dot >= 0.95f)
+            if (dot >= 0.98f)
             {
                 en->ReceiveDamage();
                 break;

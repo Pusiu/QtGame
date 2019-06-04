@@ -11,7 +11,10 @@ SOURCES += \
     model.cpp \
     particleeffect.cpp \
     player.cpp \
+    spheretrigger.cpp \
     texturemanager.cpp \
+    trigger.cpp \
+    waypoint.cpp \
     window.cpp \
     debug.cpp \
     cube.cpp \
@@ -105,7 +108,10 @@ HEADERS += \
     model.h \
     particleeffect.h \
     player.h \
+    spheretrigger.h \
     texturemanager.h \
+    trigger.h \
+    waypoint.h \
     window.h \
     debug.h \
     cube.h \

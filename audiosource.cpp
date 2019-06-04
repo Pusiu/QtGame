@@ -19,6 +19,10 @@ void AudioSource::Init()
     sounds["flak"]->setSource(QUrl::fromLocalFile("resources/sounds/flak.wav"));
     sounds.insert("death",new QSoundEffect);
     sounds["death"]->setSource(QUrl::fromLocalFile("resources/sounds/death.wav"));
+    sounds.insert("mauser",new QSoundEffect);
+    sounds["mauser"]->setSource(QUrl::fromLocalFile("resources/sounds/mauser.wav"));
+    sounds.insert("playerwound",new QSoundEffect);
+    sounds["playerwound"]->setSource(QUrl::fromLocalFile("resources/sounds/playerwound.wav"));
 }
 
 void AudioSource::PlaySoundOnce(QString name, float volume)

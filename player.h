@@ -22,6 +22,8 @@ public:
 
     bool isMoving=false;
     bool canMove=true;
+    int currentAmmo = 20;
+    int maxAmmo=20;
 
     void PlayAnimation(QString animName, bool waitForEnd=true);
     void Shoot();

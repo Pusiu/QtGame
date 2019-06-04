@@ -7,12 +7,14 @@
 #include <QKeyEvent>
 #include <QMap>
 #include <QElapsedTimer>
+#include <QPainter>
 #include "texturemanager.h"
 #include "audiosource.h"
 #include "gameobject.h"
 #include "player.h"
 #include "flak.h"
 #include "enemy.h"
+#include "waypoint.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
