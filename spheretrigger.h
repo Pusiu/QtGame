@@ -13,6 +13,8 @@ public:
     void Update() override;
 
     bool IsPlayerInside() override;
+
+    void Activate() override;
 };
 
 #endif // SPHERETRIGGER_H

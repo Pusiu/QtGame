@@ -12,8 +12,8 @@ public:
 
     AnimatedModel* model;
 
-    enum AnimState {Idle, Running, Aiming, Other};
-    AnimState currentAnimationState = Idle;
+    enum AnimState {Idle, Running, Aiming, Other, Reloading};
+    AnimState currentAnimationState = Aiming;
     AnimState desiredAnimationState = Idle;
 
     Player(QString modelPath);
@@ -24,10 +24,12 @@ public:
     bool canMove=true;
     int currentAmmo = 20;
     int maxAmmo=20;
+    float hp=100;
 
     void PlayAnimation(QString animName, bool waitForEnd=true);
     void Shoot();
     void Reload();
+    void ReceiveDamage(float damage);
 
     unsigned long lastShotTime = 0;
 

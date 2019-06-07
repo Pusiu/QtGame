@@ -16,9 +16,11 @@ public:
 
     Shader* shader=nullptr;
     QOpenGLTexture* texture=nullptr;
+    bool isTransparent=false;
 
 
     GameObject();
+    GameObject(GameObject& ref);
     virtual ~GameObject();
 
     virtual void Update() = 0;

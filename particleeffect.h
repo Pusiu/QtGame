@@ -15,6 +15,7 @@ public:
     static QMap<Cube*, unsigned long> activeParticles;
 
     static void SpawnEffect(QVector3D position, ParticleType type);
+    static void Render(QMatrix4x4* world);
     static void Update();
 };
 

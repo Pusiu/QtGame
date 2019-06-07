@@ -16,11 +16,9 @@ void SphereTrigger::Update()
 {
     if (IsPlayerInside())
     {
-        if (!activated && triggerOnce || !triggerOnce)
+        if ((!activated && triggerOnce) || !triggerOnce)
         {
-            this->activated=true;
-            qDebug("Trigger activated");
-            TriggerWaypointGroup();
+            Activate();
         }
     }
     else
@@ -33,4 +31,18 @@ void SphereTrigger::Update()
 bool SphereTrigger::IsPlayerInside()
 {
     return position.distanceToPoint(GameWindow::instance->player->position) < size;
+}
+
+void SphereTrigger::Activate()
+{
+    this->activated=true;
+    qDebug("Trigger activated");
+    TriggerWaypointGroup();
+
+    if (triggerOnce)
+    {
+
+        triggers.remove(name);
+        delete this;
+    }
 }

@@ -15,6 +15,8 @@
 #include "flak.h"
 #include "enemy.h"
 #include "waypoint.h"
+#include "boxcollider.h"
+#include "hudelement.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -31,7 +33,7 @@ public:
 
     QSize sizeHint() const override;
 
-
+Cube* test2;
     QVector<GameObject*> gameObjects;
     QMap<QString,Shader*> shaders;
 
@@ -40,10 +42,12 @@ public:
     QVector3D cameraOffset = QVector3D(0,2,0);
 
 
-    GameObject* skybox;
+    Cube* skybox;
     QVector<GameObject*> skytrains;
     QVector<Enemy*> enemies;
     Flak* flak;
+    HUDElement* screen;
+    HUDElement* vignette;
     QVector3D cameraDirection;
 
     bool lockCursor = true;
@@ -68,6 +72,12 @@ public:
     void GenerateDepthMap();
     void Update();
     void Render();
+
+    QMatrix4x4 m_proj;
+    QMatrix4x4 m_camera;
+    QMatrix4x4 m_world;
+    float m_camDistance = 3.5f;
+
 public slots:
     void setXRotation(float angle);
     void setYRotation(float angle);
@@ -78,6 +88,7 @@ signals:
     void xRotationChanged(float angle);
     void yRotationChanged(float angle);
     void zRotationChanged(float angle);
+
 
 
 
@@ -98,9 +109,7 @@ private:
         int m_hasTextureLoc;
         LightLocStruct m_lightLoc;
 
-        QMatrix4x4 m_proj;
-        QMatrix4x4 m_camera;
-        QMatrix4x4 m_world;
+
 
        // QMap<QString, Model*> m_models;
 
@@ -110,7 +119,6 @@ private:
         float m_camXRot = 15;
         float m_camYRot = 330;
         float m_camZRot = 0;
-        float m_camDistance = 3.5f;
 
 };
 

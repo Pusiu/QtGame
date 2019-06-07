@@ -11,6 +11,8 @@
 #include "shader.h"
 #include "particleeffect.h"
 #include "spheretrigger.h"
+#include "boxcollider.h"
+#include "ally.h"
 #include <stdio.h>
 
 using namespace std;
@@ -104,12 +106,12 @@ void GameWindow::initializeGL()
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
-
     // Create Shader (Do not release until VAO is created)
 
     shaders.insert("simple", new Shader("simple", "resources/shaders/simple.vert", "resources/shaders/simple.frag"));
     shaders.insert("skinned", new Shader("skinned", "resources/shaders/skinned2.vert", "resources/shaders/simple.frag"));
     shaders.insert("skybox", new Shader("skybox", "resources/shaders/simple.vert", "resources/shaders/skybox.frag"));
+    shaders.insert("hud", new Shader("hud", "resources/shaders/hud.vert", "resources/shaders/hud.frag"));
     TextureManager::Init();
     Waypoint::SetupWaypoints();
 
@@ -152,6 +154,7 @@ void GameWindow::initializeGL()
     gameObjects.push_back(houses);
 
     Cube* parachute=new Cube(new Model("resources/meshes/parachute.fbx"));
+    parachute->isTransparent=true;
     parachute->texture=TextureManager::GetTexture("parachute");
     parachute->shader=shaders["simple"];
     parachute->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
@@ -172,10 +175,25 @@ void GameWindow::initializeGL()
     shells->scale = QVector3D(5,5,5);
     gameObjects.push_back(shells);
 
+    Cube* searchlight=new Cube(new Model("resources/meshes/searchlight.fbx"));
+    searchlight->texture=TextureManager::GetTexture("searchlight");
+    searchlight->shader=shaders["simple"];
+    searchlight->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    searchlight->scale = QVector3D(5,5,5);
+    gameObjects.push_back(searchlight);
+
+    Cube* lightshaft=new Cube(new Model("resources/meshes/lightshaft.fbx"));
+    lightshaft->isTransparent=true;
+    lightshaft->texture=TextureManager::GetTexture("lightshaft");
+    lightshaft->shader=shaders["simple"];
+    lightshaft->rotation = QQuaternion::fromEulerAngles(QVector3D(-90,0,0));
+    lightshaft->scale = QVector3D(5,5,5);
+    gameObjects.push_back(lightshaft);
+
     player = new Player("resources/meshes/paratrooper.fbx");
     player->texture=TextureManager::GetTexture("paratrooper");
     player->scale = QVector3D(0.0005,0.0005,0.0005);
-    player->position = QVector3D(35, 0, 67);
+    player->position = QVector3D(37, 0, 67);
     player->shader = shaders["skinned"];
     gameObjects.push_front(player);
 
@@ -187,6 +205,7 @@ void GameWindow::initializeGL()
 
     //main plane
         Cube* skytrain = new Cube(new Model("resources/meshes/plane.fbx"));
+        skytrain->isTransparent=true;
         skytrain->scale = QVector3D(10,10,10);
         skytrain->position = QVector3D(0,90,-600);
         skytrain->rotation = QQuaternion::fromEulerAngles(QVector3D(90,-90,0));
@@ -252,10 +271,26 @@ void GameWindow::initializeGL()
     enemies.push_back(enemy);
     gameObjects.push_back(enemy);
 
-    SphereTrigger* farmTrigger = new SphereTrigger("farm", QVector3D(-10,0,46), 15);
-    gameObjects.push_back(farmTrigger);
+    SphereTrigger* farmTrigger = new SphereTrigger("farm", QVector3D(-10,0,46), 10);
 
     AudioSource::Init();
+    BoxCollider::LoadColliders("resources/meshes/mapcolliders.fbx");
+
+    Ally::SpawnAllies();
+
+
+    screen = new HUDElement(1.0f);
+   /* screen->texture=TextureManager::GetTexture("startscreen");
+    screen->transitionTime=5.0f;
+    screen->StartTransition(6.0f);
+    gameObjects.push_back(screen);
+
+    vignette = new HUDElement(0.0f);
+    vignette->texture=TextureManager::GetTexture("vignette");
+    vignette->transitionTime=0.1f;
+    gameObjects.push_back(vignette);*/
+
+    AudioSource::PlaySoundOnce("ambient", 0.2f, true);
 
 
     // Release (unbind) all
@@ -305,18 +340,87 @@ void GameWindow::Render()
     skybox->Render(&m_world);
     m_world=worldMatrixStack.pop();
 
+    QMap<float, GameObject*> transparent;
+
     for (int i=0; i < gameObjects.size(); i++)
     {
         worldMatrixStack.push(m_world);
-        gameObjects[i]->Render(&m_world);
+
+        if (gameObjects[i]->isTransparent)
+        {
+            float distance=gameObjects[i]->position.distanceToPoint(player->position - m_camDistance * cameraDirection + cameraOffset
+                                                                    + cameraDirection*1.6f);
+            transparent[distance]=gameObjects[i];
+        }
+        else
+            gameObjects[i]->Render(&m_world);
 
         m_world = worldMatrixStack.pop();
         m_program->release();
     }
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    for (QMap<float,GameObject*>::iterator it = transparent.end()-1; it != transparent.begin()-1; it--)
+    {
+        worldMatrixStack.push(m_world);
+            it.value()->Render(&m_world);
+        m_world = worldMatrixStack.pop();
+        m_program->release();
+    }
+
+
+}
+
+void GameWindow::paintGL()
+{
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
+
+
+    m_camera.setToIdentity();
+    m_camera.lookAt(player->position - m_camDistance * cameraDirection + cameraOffset,
+                    player->position + cameraOffset,
+                    QVector3D(0, 1, 0)
+                    );
+    Render();
+    Update();
+
+    m_program->release();
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+
+    QPainter painter(this);
+
+    painter.setPen(Qt::white);
+    painter.setFont(QFont("Arial", 25));
+
+    painter.beginNativePainting();
+    QRect r(width()*0.8f, height() * 0.7f, width() * 0.2f, height()*0.1f);
+    painter.drawText(r, Qt::AlignCenter, QString::number(player->currentAmmo));
+
+
+    if (player->currentAmmo == 0)
+    {
+        r=QRect(width()*0.25f, height() * 0.9f, width() * 0.5f, height()*0.1f);
+        painter.drawText(r, Qt::AlignCenter, "Przeladuj! (R)");
+    }
+
+    painter.endNativePainting();
+    painter.end();
 }
 
 void GameWindow::Update()
 {
+
+    for (int i=0; i < Trigger::triggers.size(); i++)
+        Trigger::triggers.values()[i]->Update();
+
     ParticleEffect::Update();
     update();
     for (int i=0; i < skytrains.count();i++)
@@ -353,42 +457,63 @@ void GameWindow::Update()
         if ((m_keyState[Qt::Key_W] && (m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])) || (m_keyState[Qt::Key_S] && (m_keyState[Qt::Key_A] || m_keyState[Qt::Key_D])))
                 speedMultiplier=0.75f;
 
+        bool moved=false;
+
         if (m_keyState[Qt::Key_W])
         {
-            player->position.setX(player->position.x() + cameraDirection.x() * player->speed * speedMultiplier);
-            player->position.setZ(player->position.z() + cameraDirection.z() * player->speed * speedMultiplier);
+
             playerDirection+=QVector3D(cameraDirection.x(),0,cameraDirection.z());
-            player->desiredAnimationState = Player::Running;
+            moved=true;
         }
         if (m_keyState[Qt::Key_S])
         {
-            player->position.setX(player->position.x() - cameraDirection.x() * player->speed * speedMultiplier);
-            player->position.setZ(player->position.z() - cameraDirection.z() * player->speed * speedMultiplier);
             playerDirection+=QVector3D(-cameraDirection.x(),0,-cameraDirection.z());
-            player->desiredAnimationState = Player::Running;
+            moved=true;
         }
 
         if (m_keyState[Qt::Key_A])
         {
-            player->position.setX(player->position.x() + cameraDirection.z() * player->speed * speedMultiplier);
-            player->position.setZ(player->position.z() - cameraDirection.x() * player->speed * speedMultiplier);
             playerDirection+=QVector3D(cameraDirection.z(),0,-cameraDirection.x());
-            player->desiredAnimationState = Player::Running;
+            moved=true;
         }
         if (m_keyState[Qt::Key_D])
         {
-            player->position.setX(player->position.x() - cameraDirection.z() * player->speed * speedMultiplier);
-            player->position.setZ(player->position.z() + cameraDirection.x() * player->speed * speedMultiplier);
             playerDirection+=QVector3D(-cameraDirection.z(),0,cameraDirection.x());
-            player->desiredAnimationState = Player::Running;
+            moved=true;
+        }
+
+        if (moved)
+        {
+            bool collided=false;
+            for (int i=0; i < BoxCollider::allColliders.size();i++)
+            {
+                if (BoxCollider::allColliders[i]->IsPointInside(player->position+(playerDirection*0.1f)+QVector3D(0,2,0)))
+                {
+                    collided=true;
+                    //qDebug("collided");
+                    break;
+                }
+            }
+            if (!collided)
+            {
+                player->position.setX(player->position.x() + playerDirection.x() * player->speed * speedMultiplier);
+                player->position.setZ(player->position.z() + playerDirection.z() * player->speed * speedMultiplier);
+                player->desiredAnimationState = Player::Running;
+            }
         }
     }
+
 
     if (m_keyState[Qt::Key_K])
     {
         char c[1024];
         sprintf(c, "%f %f %f\n", player->position.x(), player->position.y(), player->position.z());
         qDebug(c);
+    }
+
+    if (m_keyState[Qt::Key_2])
+    {
+        screen->StartTransition();
     }
 
     if (m_keyState[Qt::Key_1])
@@ -413,15 +538,18 @@ void GameWindow::Update()
         player->canMove=true;
     }
 
-    if (player->desiredAnimationState == Player::Aiming)
+    if (player->currentAnimationState != Player::Reloading)
     {
-        if (mouseButtonState[0])
-            player->Shoot();
-    }
-    if (m_keyState[Qt::Key_R])
-    {
-        player->Reload();
-        player->currentAmmo=player->maxAmmo;
+        if (player->desiredAnimationState == Player::Aiming)
+        {
+            if (mouseButtonState[0])
+                player->Shoot();
+        }
+        if (m_keyState[Qt::Key_R])
+        {
+            player->Reload();
+            player->currentAmmo=player->maxAmmo;
+        }
     }
 
     player->rotation = player->rotation.fromEulerAngles(0,-atan2(playerDirection.z(), playerDirection.x()) * 180.0f / M_PI,0);
@@ -430,47 +558,6 @@ void GameWindow::Update()
 
     m_timer++;
 
-}
-
-
-void GameWindow::paintGL()
-{
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-
-    m_camera.setToIdentity();
-    m_camera.lookAt(player->position - m_camDistance * cameraDirection + cameraOffset,
-                    player->position + cameraOffset,
-                    QVector3D(0, 1, 0)
-                    );
-    Render();
-    Update();
-
-    m_program->release();
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
-
-    QPainter painter(this);
-
-    glBindBuffer(GL_ARRAY_BUFFER,0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-
-
-    painter.setPen(Qt::white);
-
-    //painter.setFont(QFont("Arial", 25));
-   /* QRect r(width()*0.8f, height() * 0.7f, width() * 0.2f, height()*0.1f);
-    painter.drawText(r, Qt::AlignCenter, QString::number(player->currentAmmo));
-
-
-    if (player->currentAmmo == 0)
-    {
-        r=QRect(width()*0.25f, height() * 0.05f, width() * 0.5f, height()*0.1f);
-        painter.drawText(r, Qt::AlignCenter, "Przeladuj! (R)");
-    }*/
-    painter.end();
 }
 
 void GameWindow::setTransforms(void)

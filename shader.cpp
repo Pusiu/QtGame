@@ -18,6 +18,7 @@ void Shader::Reload()
 
     program->bindAttributeLocation("vertex", 0);
     program->bindAttributeLocation("normal", 1);
+    program->bindAttributeLocation("uvCoord", 2);
 
     program->link();
 

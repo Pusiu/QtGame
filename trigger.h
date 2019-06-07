@@ -16,6 +16,8 @@ public:
 
     static QMap<QString, Trigger*> triggers;
 
+    virtual void Activate() = 0;
+
     virtual bool IsPlayerInside() = 0;
 
     void TriggerWaypointGroup();

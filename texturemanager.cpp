@@ -23,6 +23,10 @@ void TextureManager::Init()
     textures["german"]=new QOpenGLTexture(QImage("resources/textures/german.png"));
     textures["crate"]=new QOpenGLTexture(QImage("resources/textures/crate.png"));
     textures["shell"]=new QOpenGLTexture(QImage("resources/textures/shell.png"));
+    textures["searchlight"]=new QOpenGLTexture(QImage("resources/textures/searchlight.png"));
+    textures["lightshaft"]=new QOpenGLTexture(QImage("resources/textures/lightshaft.png"));
+    textures["startscreen"]=new QOpenGLTexture(QImage("resources/textures/startscreen.png"));
+    textures["vignette"]=new QOpenGLTexture(QImage("resources/textures/vignette.png"));
 }
 
 QOpenGLTexture* TextureManager::GetTexture(QString name)

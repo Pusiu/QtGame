@@ -23,15 +23,20 @@ void AudioSource::Init()
     sounds["mauser"]->setSource(QUrl::fromLocalFile("resources/sounds/mauser.wav"));
     sounds.insert("playerwound",new QSoundEffect);
     sounds["playerwound"]->setSource(QUrl::fromLocalFile("resources/sounds/playerwound.wav"));
+    sounds.insert("ambient",new QSoundEffect);
+    sounds["ambient"]->setSource(QUrl::fromLocalFile("resources/sounds/distantfight.wav"));
 }
 
-void AudioSource::PlaySoundOnce(QString name, float volume)
+void AudioSource::PlaySoundOnce(QString name, float volume, bool loop)
 {
     QSoundEffect* s = sounds[name];
     if (s != nullptr)
     {
         s->setLoopCount(1);
         s->setVolume(volume);
+        if (loop)
+            s->setLoopCount(999999);
+
         s->play();
     }
     else {

@@ -49,6 +49,8 @@ void Enemy::Shoot()
     QVector3D effectPos=position+(right*0.2f)+QVector3D(0,1.95f,0)-(dir*1.5f);
 
     ParticleEffect::SpawnEffect(effectPos,ParticleEffect::Gunshot);
+
+    GameWindow::instance->player->ReceiveDamage(20.0f);
 }
 
 void Enemy::AssignWaypoint(Waypoint *wp)

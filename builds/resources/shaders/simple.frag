@@ -24,11 +24,11 @@ void main() {
     //gl_FragColor = vec4(colorFull, 1.0);
     highp vec4 tex = texture2D(texture, fragUV).rgba;
 
-    if(tex.a < 0.1)
+    if(tex.a < 0.05)
         discard;
 
     if(hasTexture == 1)
-        gl_FragColor = vec4(colorFull * tex, 1.0);
+        gl_FragColor = vec4(colorFull * tex, tex.a);
     else
     {
         gl_FragColor = vec4(colorFull, 1.0);

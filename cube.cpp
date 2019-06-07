@@ -3,16 +3,12 @@
 Cube::Cube(Model* model)
 {
     this->model =model;
+    this->shader=GameWindow::instance->shaders["simple"];
 }
 
-Cube::Cube(Cube &ref)
+Cube::Cube(Cube &ref) : GameObject (ref)
 {
     this->model=new Model(*ref.model);
-    this->position=ref.position;
-    this->rotation=ref.rotation;
-    this->scale=ref.scale;
-    this->shader=ref.shader;
-    this->texture=ref.texture;
 }
 
 void Cube::Update()

@@ -1,10 +1,13 @@
 SOURCES += \
+    ally.cpp \
     audiosource.cpp \
+    boxcollider.cpp \
     enemy.cpp \
     flak.cpp \
     gameobject.cpp \
     AnimationSystem/animatedmodel.cpp \
     gamewindow.cpp \
+    hudelement.cpp \
     main.cpp \
     mainwindow.cpp \
     mesh.cpp \
@@ -22,11 +25,14 @@ SOURCES += \
     shader.cpp
 
 HEADERS += \
+    ally.h \
     audiosource.h \
+    boxcollider.h \
     enemy.h \
     flak.h \
     gameobject.h \
     AnimationSystem/animatedmodel.h \
+    hudelement.h \
     lib/assimp/include/assimp/Compiler/poppack1.h \
     lib/assimp/include/assimp/Compiler/pstdint.h \
     lib/assimp/include/assimp/Compiler/pushpack1.h \
@@ -131,6 +137,8 @@ DESTDIR = builds
 OBJECTS_DIR = builds/objects
 
 DISTFILES += \
+    builds/resources/shaders/hud.frag \
+    builds/resources/shaders/hud.vert \
     builds/resources/shaders/skybox.frag \
     shaders/simple.frag \
     shaders/simple.vert \

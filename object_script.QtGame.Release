@@ -1,10 +1,13 @@
 INPUT(
+./builds\objects\ally.o
 ./builds\objects\audiosource.o
+./builds\objects\boxcollider.o
 ./builds\objects\enemy.o
 ./builds\objects\flak.o
 ./builds\objects\gameobject.o
 ./builds\objects\animatedmodel.o
 ./builds\objects\gamewindow.o
+./builds\objects\hudelement.o
 ./builds\objects\main.o
 ./builds\objects\mainwindow.o
 ./builds\objects\mesh.o

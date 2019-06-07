@@ -1,4 +1,5 @@
 #include "player.h"
+#include "trigger.h"
 #include "audiosource.h"
 #include "AnimationSystem/animatedmodel.h"
 
@@ -14,7 +15,7 @@ Player::Player(QString modelPath) : GameObject ()
 void Player::PlayAnimation(QString animName, bool waitForEnd)
 {
     model->SetCurrentAnimation(animName, !waitForEnd);
-    currentAnimationState=Other;
+    //currentAnimationState=Other;
 }
 
 void Player::Shoot()
@@ -23,6 +24,12 @@ void Player::Shoot()
     {
         if (currentAmmo == 0)
             return;
+
+        //if player hasn't entered trigger but shots at germans, they should react
+        if (GameWindow::instance->flak->isOperated && position.distanceToPoint(GameWindow::instance->flak->position) < 30)
+            {
+                Trigger::triggers["farm"]->Activate();
+            }
 
         currentAmmo--;
         AudioSource::PlaySoundOnce("Carbine");
@@ -55,14 +62,33 @@ void Player::Shoot()
 void Player::Reload()
 {
     AudioSource::PlaySoundOnce("CarbineReload");
+    currentAnimationState=Reloading;
+    canMove=false;
     PlayAnimation("Reload", true);
+}
+
+void Player::ReceiveDamage(float damage)
+{
+    hp-=damage;
 }
 
 void Player::Update()
 {
-    if ((model->currentAnimationEnded && currentAnimationState == Other)
+    if (hp < 100 && hp > 0)
+    {
+        hp+=0.01f;
+    }
+
+    GameWindow::instance->vignette->alpha=(1-hp/100);
+    GameWindow::instance->vignette->desiredAlpha=GameWindow::instance->vignette->alpha;
+    //GameWindow::instance->vignette->StartTransition();
+
+    if (currentAnimationState == Other || currentAnimationState == Reloading)
+        canMove=false;
+
+    if ((model->currentAnimationEnded && (currentAnimationState == Other || currentAnimationState == Reloading))
             ||
-            (currentAnimationState != desiredAnimationState && currentAnimationState != Other)
+            (currentAnimationState != desiredAnimationState && (currentAnimationState != Other && currentAnimationState != Reloading))
             )
     {
         currentAnimationState=desiredAnimationState;

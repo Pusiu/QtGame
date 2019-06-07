@@ -76,6 +76,7 @@ void Mesh::initVboAndVao()
     f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void *>(3 * sizeof(GLfloat)));
     f->glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void *>(6 * sizeof(GLfloat)));
 
+    m_vao_binder->release();
 }
 
 

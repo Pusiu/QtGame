@@ -24,12 +24,21 @@ void ParticleEffect::SpawnEffect(QVector3D position, ParticleEffect::ParticleTyp
         case Gunshot:
             go->texture=TextureManager::GetTexture("explosion");
             go->scale=QVector3D(0.2f,0.2f,0.2f);
-            //go->rotation=QQuaternion::fromDirection(-GameWindow::instance->playerDirection, QVector3D(0,1,0));
+            go->rotation=QQuaternion::fromDirection(-GameWindow::instance->playerDirection, QVector3D(0,1,0));
             time=GameWindow::instance->timerSinceStart.elapsed()+100;
             break;
     }
+    go->isTransparent=true;
     activeParticles.insert(go,time);
     GameWindow::instance->gameObjects.push_back(go);
+}
+
+void ParticleEffect::Render(QMatrix4x4* world)
+{
+    for (int i=0;i<activeParticles.size(); i++)
+    {
+        activeParticles.keys()[i]->Render(world);
+    }
 }
 
 void ParticleEffect::Update()

@@ -13,7 +13,7 @@ public:
     static QMap<QString, QSoundEffect*> sounds;
 
     static void Init();
-    static void PlaySoundOnce(QString name, float volume=0.5f);
+    static void PlaySoundOnce(QString name, float volume=0.5f, bool loop=false);
 };
 
 #endif // AUDIOSOURCE_H
